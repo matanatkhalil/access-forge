@@ -23,11 +23,11 @@ access-forge/
 │   └── App.jsx
 ```
 ## Tech Stack
-**Frontend:**  React + JavaScript (TypeScript migration planned)
-**Styling:**   Tailwind CSS
-**Backend:**   Node.js + Express
-**Database:**  PostgreSQL
-**Testing:**   Vitest + React Testing Library
-**Linting:**   ESLint + Prettier
-**Hosting:**   Vercel (frontend) + Railway or Render (backend)
+**Frontend:**  React + JavaScript (TypeScript migration planned)  
+**Styling:**   Tailwind CSS  
+**Backend:**   Node.js + Express  
+**Database:**  PostgreSQL  
+**Testing:**   Vitest + React Testing Library  
+**Linting:**   ESLint + Prettier  
+**Hosting:**   Vercel (frontend) + Railway or Render (backend)  
 
