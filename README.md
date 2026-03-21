@@ -4,7 +4,7 @@ A collection of accessibility and assistive technology tools:
 - **AAC Communication Board** — A symbol-based communication board for 
   users who rely on augmentative and alternative communication.
 - **Screen Reader Practice Environment** — An interactive sandbox for 
-  learning and practicing screen reader navigation techniques.
+  learning and practicing screen reader navigation techniques. Built for users who rely on keyboard-only navigation and for developers who want to understand their experience.
 - **Keyboard Navigation Practice Tool** — Guided exercises for mastering 
   keyboard-only navigation across common UI patterns.
 - **WCAG Contrast Checker** — A tool to test foreground and background 
