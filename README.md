@@ -23,12 +23,15 @@ access-forge/
 │   ├── components/   # shared UI
 │   └── App.jsx
 ```
+
 ## Tech Stack
-**Frontend:**  React + JavaScript (TypeScript migration planned)  
-**Styling:**   Tailwind CSS  
-**Backend:**   Node.js + Express  
-**Database:**  PostgreSQL  
-**Testing:**   Vitest + React Testing Library  
-**Linting:**   ESLint + Prettier  
-**Hosting:**   Vercel (frontend) + Railway or Render (backend)  
+| Layer | Technology |
+|---|---|
+| Frontend | React + JavaScript (TypeScript migration planned) |
+| Styling | Tailwind CSS |
+| Backend | Node.js + Express |
+| Database | PostgreSQL |
+| Testing | Vitest + React Testing Library |
+| Linting | ESLint + Prettier |
+| Hosting | Vercel (frontend) + Railway or Render (backend) |
 
