@@ -37,6 +37,7 @@
 - [ ] App starts successfully in development mode (`npm start`).
 
 ### ⚙️ Node.js Backend
+
 - [ ] Code formatted with Prettier (`npm run format`).
 - [ ] ESLint passed (`npm run lint`).
 - [ ] All backend tests passed (`npm test`).

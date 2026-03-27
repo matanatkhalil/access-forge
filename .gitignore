@@ -1,1 +1,18 @@
+# Dependency Directories
+node_modules/
+client/node_modules/
+server/node_modules/
 
+# Build Outputs
+dist/
+client/dist/
+
+# Secret Environments
+.env
+.env.local
+server/.env
+
+# System Files
+.DS_Store
+.vscode/
+!.vscode/extensions.json
