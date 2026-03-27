@@ -16,9 +16,6 @@ const App = () => {
           <p className="text-slate-500 mb-4">
             Customizable high-contrast board for non-verbal communication.
           </p>
-          <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-indigo-100 text-indigo-700">
-            Next Module: Development
-          </span>
         </div>
 
         <div className="p-6 bg-white rounded-xl shadow-sm border border-slate-100 opacity-60">

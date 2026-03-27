@@ -34,14 +34,14 @@
 - [ ] Linting passed via ESLint (`npm run lint`).
 - [ ] All frontend tests passed (`npm test` / `npm run test`).
 - [ ] Production build verified locally (`npm run build`).
-- [ ] App starts successfully in development mode (`npm start`).
+- [ ] App starts successfully in development mode (`npm run dev`).
 
 ### ⚙️ Node.js Backend
 
 - [ ] Code formatted with Prettier (`npm run format`).
 - [ ] ESLint passed (`npm run lint`).
 - [ ] All backend tests passed (`npm test`).
-- [ ] Server starts successfully (`npm start`).
+- [ ] Server starts successfully (`npm run dev`).
 
 ### 🏗️ Infrastructure & Database
 
