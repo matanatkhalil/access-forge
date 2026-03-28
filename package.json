@@ -2,7 +2,7 @@
   "name": "access-forge",
   "version": "1.0.0",
   "private": true,
-  "description": "A platform of assistive technology and accessibility experiences, built for users with disabilities first.",
+  "description": "A platform of assistive technology and accessibility experiences, built for users with disabilities first",
   "type": "module",
   "scripts": {
     "client": "npm run dev --prefix client",
@@ -36,6 +36,9 @@
     "eslint": "^9.39.4",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^17.4.0",
     "prettier": "^3.8.1"
   }
 }

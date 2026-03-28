@@ -1,8 +1,9 @@
 {
   "name": "access-forge-client",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
+  "description": "The frontend React application for Access Forge, providing an inclusive and accessible user interface",
   "author": "Matanat Khalilova",
   "license": "MIT",
   "scripts": {
