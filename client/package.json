@@ -11,8 +11,9 @@
     "build": "vite build",
     "lint": "eslint .",
     "start": "vite preview",
+    "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"No tests yet\" && exit 0"
   },
   "dependencies": {
     "clsx": "^2.1.1",
