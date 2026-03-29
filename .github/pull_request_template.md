@@ -41,12 +41,13 @@
 - [ ] Code formatted with Prettier (`npm run format`).
 - [ ] ESLint passed (`npm run lint`).
 - [ ] All backend tests passed (`npm test`).
-- [ ] Server starts successfully (`npm run dev`).
+- [ ] Server starts successfully (`npm start`).
 
 ### 🏗️ Infrastructure & Database
 
 - [ ] Environment variables updated in .env.example (if applicable).
-- [ ] PostgreSQL schema changes documented if applicable
+- [ ] PostgreSQL schema changes documented if applicable.
+- [ ] Docker setup verified if applicable (`docker-compose up`).
 - [ ] Integration with GitHub Actions verified.
 
 ## 📸 Screenshots / Logs
