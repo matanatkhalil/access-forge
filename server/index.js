@@ -1,8 +1,15 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import cors from 'cors';
 
-dotenv.config({ path: '../.env' });
+// Create the ESM equivalent of __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Point to the root .env (one folder up from /server)
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 import pool from './db/db.js';
 
