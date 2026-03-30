@@ -1,0 +1,44 @@
+{
+  "name": "access-forge",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A platform of assistive technology and accessibility experiences, built for users with disabilities first",
+  "type": "module",
+  "scripts": {
+    "client": "npm run dev --prefix client",
+    "server": "npm run dev --prefix server",
+    "dev": "concurrently \"npm run client\" \"npm run server\"",
+    "start": "node server/index.js",
+    "lint": "npx eslint .",
+    "format": "npx prettier --write .",
+    "format:check": "npx prettier --check .",
+    "test": "echo \"No tests specified yet\" && exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matanatkhalil/access-forge.git"
+  },
+  "keywords": [
+    "accessibility",
+    "assistive-technology",
+    "a11y",
+    "inclusive-design",
+    "aac"
+  ],
+  "author": "Matanat Khalilova",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/matanatkhalil/access-forge/issues"
+  },
+  "homepage": "https://github.com/matanatkhalil/access-forge#readme",
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "eslint": "^9.39.4",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^17.4.0",
+    "prettier": "^3.8.1"
+  }
+}

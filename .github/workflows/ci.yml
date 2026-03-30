@@ -1,0 +1,44 @@
+name: CI Check
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+    branches: [main]
+
+jobs:
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install root dependencies
+        run: npm ci
+      - name: Install client dependencies
+        run: npm ci
+        working-directory: client
+      - name: Frontend format check
+        run: npm run format:check
+      - name: Frontend lint
+        run: npx eslint client/
+      - name: Frontend build
+        run: npm run build
+        working-directory: client
+      - name: Frontend test
+        run: npm test
+        working-directory: client
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install root dependencies
+        run: npm ci
+      - name: Install server dependencies
+        run: npm ci
+        working-directory: server
+      - name: Server format check
+        run: npm run format:check
+      - name: Server lint
+        run: npx eslint server/
+      - name: Server test
+        run: npm test
+        working-directory: server
