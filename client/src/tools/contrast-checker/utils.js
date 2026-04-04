@@ -45,7 +45,7 @@ export const getContrastRatio = (color1, color2) => {
 };
 
 const checkStatus = (ratio, threshold) => {
-  ratio >= threshold ? 'Pass' : 'Fail';
+  return ratio >= threshold ? 'Pass' : 'Fail';
 };
 
 export const aaNormalText = (ratio) => checkStatus(ratio, 4.5);
