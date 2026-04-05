@@ -52,3 +52,18 @@ export const aaNormalText = (ratio) => checkStatus(ratio, 4.5);
 export const aaLargeText = (ratio) => checkStatus(ratio, 3);
 export const aaaNormalText = (ratio) => checkStatus(ratio, 7);
 export const aaaLargeText = (ratio) => checkStatus(ratio, 4.5);
+
+export const isValidHex = (hex) => {
+  const hexRegex = /^#?([0-9A-F]{3}){1,2}$/i;
+  return hexRegex.test(hex);
+};
+
+export const normalizeHex = (hex) => {
+  if (!hex) return '#000000'; // Default to black if input is empty or undefined
+  let normalized = hex.startsWith('#') ? hex : `#${hex}`;
+
+  if (normalized.length === 4) {
+    normalized = `#${normalized[1]}${normalized[1]}${normalized[2]}${normalized[2]}${normalized[3]}${normalized[3]}`;
+  }
+  return normalized;
+};

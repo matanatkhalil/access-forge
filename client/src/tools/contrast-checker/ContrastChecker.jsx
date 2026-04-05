@@ -1,10 +1,25 @@
-import { getContrastRatio, aaNormalText, aaLargeText, aaaNormalText, aaaLargeText } from './utils';
+import {
+  getContrastRatio,
+  aaNormalText,
+  aaLargeText,
+  aaaNormalText,
+  aaaLargeText,
+  normalizeHex,
+  isValidHex,
+} from './utils';
 import { useState } from 'react';
 
 const ContrastChecker = () => {
   const [foregroundColor, setForegroundColor] = useState('#000000');
   const [backgroundColor, setBackgroundColor] = useState('#ffffff');
-  const contrastRatio = Number(getContrastRatio(foregroundColor, backgroundColor).toFixed(2));
+  const isForegroundValid = isValidHex(foregroundColor);
+  const isBackgroundValid = isValidHex(backgroundColor);
+  const contrastRatio =
+    isForegroundValid && isBackgroundValid
+      ? Number(
+          getContrastRatio(normalizeHex(foregroundColor), normalizeHex(backgroundColor)).toFixed(2)
+        )
+      : '—';
 
   return (
     <div className="contrast-checker flex flex-col items-center min-h-screen bg-white p-8">
@@ -16,14 +31,14 @@ const ContrastChecker = () => {
             <input
               type="text"
               value={foregroundColor}
-              onChange={(e) => setForegroundColor(e.target.value)}
-              className="flex-1 p-2 border border-slate-300 rounded-lg font-mono focus:ring-2 focus:ring-indigo-500 outline-none"
+              onChange={(e) => setForegroundColor(e.target.value.toUpperCase())}
+              className={`flex-1 p-2 border rounded-lg font-mono focus:ring-2 outline-none ${!isForegroundValid ? 'border-red-500 focus:ring-red-300' : 'border-slate-300 focus:ring-indigo-500 '}`}
               placeholder="#000000"
             />
             <input
               type="color"
               value={foregroundColor}
-              onChange={(e) => setForegroundColor(e.target.value)}
+              onChange={(e) => setForegroundColor(e.target.value.toUpperCase())}
               className="w-12 h-12 border-none rounded-lg cursor-pointer bg-transparent"
             />
           </div>
@@ -35,22 +50,27 @@ const ContrastChecker = () => {
             <input
               type="text"
               value={backgroundColor}
-              onChange={(e) => setBackgroundColor(e.target.value)}
-              className="flex-1 p-2 border border-slate-300 rounded-lg font-mono focus:ring-2 focus:ring-indigo-500 outline-none"
+              onChange={(e) => setBackgroundColor(e.target.value.toUpperCase())}
+              className={`flex-1 p-2 border rounded-lg font-mono focus:ring-2 outline-none ${!isBackgroundValid ? 'border-red-500 focus:ring-red-300' : 'border-slate-300 focus:ring-indigo-500'}`}
               placeholder="#FFFFFF"
             />
             <input
               type="color"
               value={backgroundColor}
-              onChange={(e) => setBackgroundColor(e.target.value)}
+              onChange={(e) => setBackgroundColor(e.target.value.toUpperCase())}
               className="w-12 h-12 border-none rounded-lg cursor-pointer bg-transparent"
             />
           </div>
         </label>
+        {!isForegroundValid || !isBackgroundValid ? (
+          <span className="text-red-500 text-base">
+            Please enter valid hex codes (e.g., #000000, #FFFFFF)
+          </span>
+        ) : null}
       </div>
 
       {/* Ratio Display */}
-      <div className="mb-10 text-center">
+      <div className="mb-6 text-center">
         <p className="text-base uppercase tracking-widest text-slate-400 font-bold mb-1">
           Current Ratio
         </p>
@@ -73,12 +93,12 @@ const ContrastChecker = () => {
         {/* Normal Text Row */}
         <div className="text-base font-bold text-slate-800">Normal Text</div>
         <div
-          className={`text-center py-3 rounded-xl font-black text-lg ${aaNormalText(contrastRatio) === 'Pass' ? 'text-green-600 bg-green-100/50' : 'text-red-600 bg-red-100/50'}`}
+          className={`text-center py-3 rounded-xl font-black text-base ${aaNormalText(contrastRatio) === 'Pass' ? 'text-green-600 bg-green-100/50' : 'text-red-600 bg-red-100/50'}`}
         >
           {aaNormalText(contrastRatio)}
         </div>
         <div
-          className={`text-center py-3 rounded-xl font-black text-lg ${aaaNormalText(contrastRatio) === 'Pass' ? 'text-green-600 bg-green-100/50' : 'text-red-600 bg-red-100/50'}`}
+          className={`text-center py-3 rounded-xl font-black text-base ${aaaNormalText(contrastRatio) === 'Pass' ? 'text-green-600 bg-green-100/50' : 'text-red-600 bg-red-100/50'}`}
         >
           {aaaNormalText(contrastRatio)}
         </div>
@@ -86,12 +106,12 @@ const ContrastChecker = () => {
         {/* Large Text Row */}
         <div className="text-base font-bold text-slate-800">Large Text</div>
         <div
-          className={`text-center py-3 rounded-xl font-black text-lg ${aaLargeText(contrastRatio) === 'Pass' ? 'text-green-600 bg-green-100/50' : 'text-red-600 bg-red-100/50'}`}
+          className={`text-center py-3 rounded-xl font-black text-base ${aaLargeText(contrastRatio) === 'Pass' ? 'text-green-600 bg-green-100/50' : 'text-red-600 bg-red-100/50'}`}
         >
           {aaLargeText(contrastRatio)}
         </div>
         <div
-          className={`text-center py-3 rounded-xl font-black text-lg ${aaaLargeText(contrastRatio) === 'Pass' ? 'text-green-600 bg-green-100/50' : 'text-red-600 bg-red-100/50'}`}
+          className={`text-center py-3 rounded-xl font-black text-base ${aaaLargeText(contrastRatio) === 'Pass' ? 'text-green-600 bg-green-100/50' : 'text-red-600 bg-red-100/50'}`}
         >
           {aaaLargeText(contrastRatio)}
         </div>
