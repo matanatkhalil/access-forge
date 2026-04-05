@@ -116,6 +116,21 @@ const ContrastChecker = () => {
           {aaaLargeText(contrastRatio)}
         </div>
       </div>
+      <div className="mt-12 pt-8 border-t border-slate-100 w-full max-w-2xl text-center">
+        <p className="text-[12px] text-slate-500 uppercase tracking-[0.2em] font-bold mb-6">
+          WCAG Reference Definitions
+        </p>
+        <div className="flex flex-wrap justify-center gap-x-12 gap-y-3 text-xs text-slate-600">
+          <p>
+            <span className="font-bold text-slate-700">Large Text:</span> ≥18pt (24px) or ≥14pt
+            (approx. 18.67px) Bold
+          </p>
+          <p>
+            <span className="font-bold text-slate-700">Normal Text:</span> Any size below Large Text
+            thresholds
+          </p>
+        </div>
+      </div>
     </div>
   );
 };
