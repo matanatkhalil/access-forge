@@ -11,7 +11,7 @@ import { useState } from 'react';
 
 const ContrastChecker = () => {
   const [foregroundColor, setForegroundColor] = useState('#000000');
-  const [backgroundColor, setBackgroundColor] = useState('#ffffff');
+  const [backgroundColor, setBackgroundColor] = useState('#FFFFFF');
   const isForegroundValid = isValidHex(foregroundColor);
   const isBackgroundValid = isValidHex(backgroundColor);
   const contrastRatio =
