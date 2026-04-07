@@ -31,72 +31,104 @@ const ContrastChecker = () => {
     <div className="contrast-checker flex flex-col items-center min-h-screen bg-white p-8">
       {/* Input Section */}
       <div className="color-inputs flex flex-col gap-8 mb-12 mt-12 w-full max-w-lg">
-        <label className="flex flex-col gap-3 text-lg font-semibold text-slate-700">
-          Foreground Color
+        <div className="flex flex-col gap-3">
+          <label htmlFor="foreground-text" className="text-lg font-semibold text-slate-700">
+            Foreground Color
+          </label>
           <div className="flex items-center gap-4">
             <input
               type="text"
+              id="foreground-text"
               value={foregroundColor}
               onChange={(e) => setForegroundColor(e.target.value.toUpperCase())}
               className={`flex-1 p-2 border rounded-lg font-mono focus:ring-2 outline-none ${!isForegroundValid ? 'border-red-500 focus:ring-red-300' : 'border-slate-300 focus:ring-indigo-500 '}`}
               placeholder="#000000"
+              aria-invalid={!isForegroundValid}
+              aria-describedby={!isForegroundValid ? 'color-error' : undefined}
             />
             <input
               type="color"
+              aria-label="Foreground color picker"
               value={foregroundColor}
               onChange={(e) => setForegroundColor(e.target.value.toUpperCase())}
               className="w-12 h-12 border-none rounded-lg cursor-pointer bg-transparent"
             />
           </div>
-        </label>
+        </div>
 
-        <label className="flex flex-col gap-3 text-lg font-semibold text-slate-700">
-          Background Color
+        <div className="flex flex-col gap-3">
+          <label htmlFor="background-text" className="text-lg font-semibold text-slate-700">
+            Background Color
+          </label>
           <div className="flex items-center gap-4">
             <input
               type="text"
+              id="background-text"
               value={backgroundColor}
               onChange={(e) => setBackgroundColor(e.target.value.toUpperCase())}
               className={`flex-1 p-2 border rounded-lg font-mono focus:ring-2 outline-none ${!isBackgroundValid ? 'border-red-500 focus:ring-red-300' : 'border-slate-300 focus:ring-indigo-500'}`}
               placeholder="#FFFFFF"
+              aria-invalid={!isBackgroundValid}
+              aria-describedby={!isBackgroundValid ? 'color-error' : undefined}
             />
             <input
               type="color"
+              aria-label="Background color picker"
               value={backgroundColor}
               onChange={(e) => setBackgroundColor(e.target.value.toUpperCase())}
               className="w-12 h-12 border-none rounded-lg cursor-pointer bg-transparent"
             />
           </div>
-        </label>
+        </div>
         {!isForegroundValid || !isBackgroundValid ? (
-          <span className="text-red-500 text-base">
+          <span id="color-error" role="alert" className="text-red-500 text-base">
             Please enter valid hex codes (e.g., #000000, #FFFFFF)
           </span>
         ) : null}
       </div>
       {/* Ratio Display */}
-      <div className="mb-6 text-center">
+      <div className="mb-6 text-center" aria-live="polite" aria-atomic="true" role="status">
         <p className="text-base uppercase tracking-widest text-slate-400 font-bold mb-1">
           Current Ratio
         </p>
-        <p className="text-3xl font-black text-indigo-600">{contrastRatio}</p>
+        <p className="text-3xl font-black text-indigo-600">
+          <span aria-label={contrastRatio !== '—' ? `${contrastRatio} to 1` : 'Not available'}>
+            {contrastRatio}
+          </span>
+        </p>
       </div>
       {/* Results Table */}
-      <div className="contrast-results grid grid-cols-3 gap-y-8 gap-x-12 p-10 bg-slate-50 border border-slate-100 rounded-2xl w-full max-w-2xl items-center shadow-sm">
+      <div
+        role="table"
+        aria-label="WCAG contrast compliance results"
+        className="contrast-results grid grid-cols-3 gap-y-8 gap-x-12 p-10 bg-slate-50 border border-slate-100 rounded-2xl w-full max-w-2xl items-center shadow-sm"
+      >
         {/* Header Row */}
-        <div className="text-base font-bold text-slate-400 uppercase tracking-widest">
+        <div
+          role="columnheader"
+          className="text-base font-bold text-slate-400 uppercase tracking-widest"
+        >
           Text Type
         </div>
-        <div className="text-base font-bold text-slate-400 uppercase tracking-widest text-center">
+        <div
+          role="columnheader"
+          className="text-base font-bold text-slate-400 uppercase tracking-widest text-center"
+        >
           AA Level
         </div>
-        <div className="text-base font-bold text-slate-400 uppercase tracking-widest text-center">
+        <div
+          role="columnheader"
+          className="text-base font-bold text-slate-400 uppercase tracking-widest text-center"
+        >
           AAA Level
         </div>
 
         {/* Normal Text Row */}
-        <div className="text-base font-bold text-slate-800">Normal Text</div>
+        <div role="rowheader" className="text-base font-bold text-slate-800">
+          Normal Text
+        </div>
         <div
+          role="cell"
           className={`text-center py-3 rounded-xl font-black text-base ${
             contrastRatio === '—'
               ? 'text-slate-400 bg-slate-100'
@@ -108,6 +140,7 @@ const ContrastChecker = () => {
           {contrastRatio === '—' ? '—' : aaNormalText(contrastRatio)}
         </div>
         <div
+          role="cell"
           className={`text-center py-3 rounded-xl font-black text-base ${
             contrastRatio === '—'
               ? 'text-slate-400 bg-slate-100'
@@ -120,8 +153,11 @@ const ContrastChecker = () => {
         </div>
 
         {/* Large Text Row */}
-        <div className="text-base font-bold text-slate-800">Large Text</div>
+        <div role="rowheader" className="text-base font-bold text-slate-800">
+          Large Text
+        </div>
         <div
+          role="cell"
           className={`text-center py-3 rounded-xl font-black text-base ${
             contrastRatio === '—'
               ? 'text-slate-400 bg-slate-100'
@@ -133,6 +169,7 @@ const ContrastChecker = () => {
           {contrastRatio === '—' ? '—' : aaLargeText(contrastRatio)}
         </div>
         <div
+          role="cell"
           className={`text-center py-3 rounded-xl font-black text-base ${
             contrastRatio === '—'
               ? 'text-slate-400 bg-slate-100'
@@ -144,6 +181,7 @@ const ContrastChecker = () => {
           {contrastRatio === '—' ? '—' : aaaLargeText(contrastRatio)}
         </div>
       </div>
+
       {suggestion && (
         <div className="mt-8 p-6 bg-amber-50 border border-amber-200 rounded-2xl w-full max-w-2xl">
           <p className="text-sm font-bold uppercase tracking-widest text-amber-600 mb-4">
@@ -152,6 +190,7 @@ const ContrastChecker = () => {
           <div className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <div
+                aria-hidden="true"
                 className="w-10 h-10 rounded-lg border border-slate-200 shadow-sm"
                 style={{ backgroundColor: suggestion }}
               />
@@ -172,6 +211,7 @@ const ContrastChecker = () => {
             </div>
             <button
               onClick={() => setForegroundColor(suggestion)}
+              aria-label={`Apply suggested foreground color ${suggestion}`}
               className="px-4 py-2 bg-indigo-600 text-white text-sm font-bold rounded-lg hover:bg-indigo-700 transition-colors"
             >
               Apply
@@ -185,8 +225,8 @@ const ContrastChecker = () => {
         </p>
         <div className="flex flex-wrap justify-center gap-x-12 gap-y-3 text-xs text-slate-600">
           <p>
-            <span className="font-bold text-slate-700">Large Text:</span> ≥18pt (24px) or ≥14pt
-            (approx. 18.67px) Bold
+            <span className="font-bold text-slate-700">Large Text:</span> ≥18pt (24px) Regular or
+            ≥14pt (approx. 18.67px) Bold
           </p>
           <p>
             <span className="font-bold text-slate-700">Normal Text:</span> Any size below Large Text
