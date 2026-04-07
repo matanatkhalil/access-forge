@@ -56,6 +56,33 @@ export const getContrastRatio = (color1, color2) => {
   }
 };
 
+export const adjustBrightness = (hex, amount) => {
+  const cleanHex = normalizeHex(hex).slice(1);
+  let r = Math.max(0, Math.min(255, parseInt(cleanHex.slice(0, 2), 16) + amount));
+  let g = Math.max(0, Math.min(255, parseInt(cleanHex.slice(2, 4), 16) + amount));
+  let b = Math.max(0, Math.min(255, parseInt(cleanHex.slice(4, 6), 16) + amount));
+
+  const toHex = (num) => num.toString(16).padStart(2, '0').toUpperCase();
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+};
+
+export const getSuggestedColor = (fg, bg) => {
+  let suggested = normalizeHex(fg);
+  const background = normalizeHex(bg);
+  const isLightBackground = getLuminance(background) > 0.5;
+  const step = isLightBackground ? -5 : 5; // Darken for light background, lighten for dark background
+
+  let attempts = 0;
+  while (getContrastRatio(suggested, background) < 4.5 && attempts < 100) {
+    const next = adjustBrightness(suggested, step);
+    if (suggested === next) break; // If no change, break to prevent infinite loop
+    suggested = next;
+    attempts++;
+  }
+
+  return suggested;
+};
+
 const checkStatus = (ratio, threshold) => {
   return ratio >= threshold ? 'Pass' : 'Fail';
 };

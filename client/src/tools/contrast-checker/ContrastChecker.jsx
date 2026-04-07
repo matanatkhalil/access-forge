@@ -6,6 +6,7 @@ import {
   aaaLargeText,
   normalizeHex,
   isValidHex,
+  getSuggestedColor,
 } from './utils';
 import { useState } from 'react';
 
@@ -20,6 +21,11 @@ const ContrastChecker = () => {
           getContrastRatio(normalizeHex(foregroundColor), normalizeHex(backgroundColor)).toFixed(2)
         )
       : '—';
+
+  const suggestion =
+    isForegroundValid && isBackgroundValid && contrastRatio !== '—' && contrastRatio < 4.5
+      ? getSuggestedColor(foregroundColor, backgroundColor)
+      : null;
 
   return (
     <div className="contrast-checker flex flex-col items-center min-h-screen bg-white p-8">
@@ -68,7 +74,6 @@ const ContrastChecker = () => {
           </span>
         ) : null}
       </div>
-
       {/* Ratio Display */}
       <div className="mb-6 text-center">
         <p className="text-base uppercase tracking-widest text-slate-400 font-bold mb-1">
@@ -76,7 +81,6 @@ const ContrastChecker = () => {
         </p>
         <p className="text-3xl font-black text-indigo-600">{contrastRatio}</p>
       </div>
-
       {/* Results Table */}
       <div className="contrast-results grid grid-cols-3 gap-y-8 gap-x-12 p-10 bg-slate-50 border border-slate-100 rounded-2xl w-full max-w-2xl items-center shadow-sm">
         {/* Header Row */}
@@ -93,29 +97,88 @@ const ContrastChecker = () => {
         {/* Normal Text Row */}
         <div className="text-base font-bold text-slate-800">Normal Text</div>
         <div
-          className={`text-center py-3 rounded-xl font-black text-base ${aaNormalText(contrastRatio) === 'Pass' ? 'text-green-600 bg-green-100/50' : 'text-red-600 bg-red-100/50'}`}
+          className={`text-center py-3 rounded-xl font-black text-base ${
+            contrastRatio === '—'
+              ? 'text-slate-400 bg-slate-100'
+              : aaNormalText(contrastRatio) === 'Pass'
+                ? 'text-green-600 bg-green-100/50'
+                : 'text-red-600 bg-red-100/50'
+          }`}
         >
-          {aaNormalText(contrastRatio)}
+          {contrastRatio === '—' ? '—' : aaNormalText(contrastRatio)}
         </div>
         <div
-          className={`text-center py-3 rounded-xl font-black text-base ${aaaNormalText(contrastRatio) === 'Pass' ? 'text-green-600 bg-green-100/50' : 'text-red-600 bg-red-100/50'}`}
+          className={`text-center py-3 rounded-xl font-black text-base ${
+            contrastRatio === '—'
+              ? 'text-slate-400 bg-slate-100'
+              : aaaNormalText(contrastRatio) === 'Pass'
+                ? 'text-green-600 bg-green-100/50'
+                : 'text-red-600 bg-red-100/50'
+          }`}
         >
-          {aaaNormalText(contrastRatio)}
+          {contrastRatio === '—' ? '—' : aaaNormalText(contrastRatio)}
         </div>
 
         {/* Large Text Row */}
         <div className="text-base font-bold text-slate-800">Large Text</div>
         <div
-          className={`text-center py-3 rounded-xl font-black text-base ${aaLargeText(contrastRatio) === 'Pass' ? 'text-green-600 bg-green-100/50' : 'text-red-600 bg-red-100/50'}`}
+          className={`text-center py-3 rounded-xl font-black text-base ${
+            contrastRatio === '—'
+              ? 'text-slate-400 bg-slate-100'
+              : aaLargeText(contrastRatio) === 'Pass'
+                ? 'text-green-600 bg-green-100/50'
+                : 'text-red-600 bg-red-100/50'
+          }`}
         >
-          {aaLargeText(contrastRatio)}
+          {contrastRatio === '—' ? '—' : aaLargeText(contrastRatio)}
         </div>
         <div
-          className={`text-center py-3 rounded-xl font-black text-base ${aaaLargeText(contrastRatio) === 'Pass' ? 'text-green-600 bg-green-100/50' : 'text-red-600 bg-red-100/50'}`}
+          className={`text-center py-3 rounded-xl font-black text-base ${
+            contrastRatio === '—'
+              ? 'text-slate-400 bg-slate-100'
+              : aaaLargeText(contrastRatio) === 'Pass'
+                ? 'text-green-600 bg-green-100/50'
+                : 'text-red-600 bg-red-100/50'
+          }`}
         >
-          {aaaLargeText(contrastRatio)}
+          {contrastRatio === '—' ? '—' : aaaLargeText(contrastRatio)}
         </div>
       </div>
+      {suggestion && (
+        <div className="mt-8 p-6 bg-amber-50 border border-amber-200 rounded-2xl w-full max-w-2xl">
+          <p className="text-sm font-bold uppercase tracking-widest text-amber-600 mb-4">
+            💡 Suggested Fix
+          </p>
+          <div className="flex items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div
+                className="w-10 h-10 rounded-lg border border-slate-200 shadow-sm"
+                style={{ backgroundColor: suggestion }}
+              />
+              <div>
+                <p className="text-sm text-slate-500">Change foreground to</p>
+                <p className="font-mono font-bold text-slate-800">{suggestion}</p>
+                <p className="text-xs text-green-600 font-semibold mt-1">
+                  New ratio:{' '}
+                  {Number(
+                    getContrastRatio(
+                      normalizeHex(suggestion),
+                      normalizeHex(backgroundColor)
+                    ).toFixed(2)
+                  )}{' '}
+                  — Passes AA
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={() => setForegroundColor(suggestion)}
+              className="px-4 py-2 bg-indigo-600 text-white text-sm font-bold rounded-lg hover:bg-indigo-700 transition-colors"
+            >
+              Apply
+            </button>
+          </div>
+        </div>
+      )}
       <div className="mt-12 pt-8 border-t border-slate-100 w-full max-w-2xl text-center">
         <p className="text-[12px] text-slate-500 uppercase tracking-[0.2em] font-bold mb-6">
           WCAG Reference Definitions
