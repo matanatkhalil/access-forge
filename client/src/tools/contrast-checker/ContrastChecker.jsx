@@ -27,6 +27,16 @@ const ContrastChecker = () => {
       ? getSuggestedColor(foregroundColor, backgroundColor)
       : null;
 
+  let newRatio = null;
+  let passes = false;
+
+  if (suggestion) {
+    newRatio = Number(
+      getContrastRatio(normalizeHex(suggestion), normalizeHex(backgroundColor)).toFixed(2)
+    );
+    passes = newRatio >= 4.5;
+  }
+
   return (
     <div className="contrast-checker flex flex-col items-center min-h-screen bg-white p-8">
       {/* Input Section */}
@@ -181,8 +191,7 @@ const ContrastChecker = () => {
           {contrastRatio === '—' ? '—' : aaaLargeText(contrastRatio)}
         </div>
       </div>
-
-      {suggestion && (
+      {suggestion && passes && (
         <div className="mt-8 p-6 bg-amber-50 border border-amber-200 rounded-2xl w-full max-w-2xl">
           <p className="text-sm font-bold uppercase tracking-widest text-amber-600 mb-4">
             💡 Suggested Fix
@@ -198,14 +207,7 @@ const ContrastChecker = () => {
                 <p className="text-sm text-slate-500">Change foreground to</p>
                 <p className="font-mono font-bold text-slate-800">{suggestion}</p>
                 <p className="text-xs text-green-600 font-semibold mt-1">
-                  New ratio:{' '}
-                  {Number(
-                    getContrastRatio(
-                      normalizeHex(suggestion),
-                      normalizeHex(backgroundColor)
-                    ).toFixed(2)
-                  )}{' '}
-                  — Passes AA
+                  New ratio: {newRatio} — {passes ? 'Passes AA' : 'Still fails AA'}
                 </p>
               </div>
             </div>

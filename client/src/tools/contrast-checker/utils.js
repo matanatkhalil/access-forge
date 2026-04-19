@@ -56,31 +56,95 @@ export const getContrastRatio = (color1, color2) => {
   }
 };
 
-export const adjustBrightness = (hex, amount) => {
-  const cleanHex = normalizeHex(hex).slice(1);
-  let r = Math.max(0, Math.min(255, parseInt(cleanHex.slice(0, 2), 16) + amount));
-  let g = Math.max(0, Math.min(255, parseInt(cleanHex.slice(2, 4), 16) + amount));
-  let b = Math.max(0, Math.min(255, parseInt(cleanHex.slice(4, 6), 16) + amount));
-
-  const toHex = (num) => num.toString(16).padStart(2, '0').toUpperCase();
-  return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
-};
-
 export const getSuggestedColor = (fg, bg) => {
-  let suggested = normalizeHex(fg);
   const background = normalizeHex(bg);
-  const isLightBackground = getLuminance(background) > 0.5;
-  const step = isLightBackground ? -5 : 5; // Darken for light background, lighten for dark background
 
-  let attempts = 0;
-  while (getContrastRatio(suggested, background) < 4.5 && attempts < 100) {
-    const next = adjustBrightness(suggested, step);
-    if (suggested === next) break; // If no change, break to prevent infinite loop
-    suggested = next;
-    attempts++;
+  const blackRatio = getContrastRatio('#000000', background);
+  const whiteRatio = getContrastRatio('#FFFFFF', background);
+  const safeFallback = blackRatio >= whiteRatio ? '#000000' : '#FFFFFF';
+
+  /* if the background gives better contrast with black, 
+  it is lighter; if it gives better contrast with white, it is darker */
+  const isLightBackground = blackRatio > whiteRatio;
+
+  const cleanHex = normalizeHex(fg).slice(1);
+  let r = parseInt(cleanHex.slice(0, 2), 16) / 255;
+  let g = parseInt(cleanHex.slice(2, 4), 16) / 255;
+  let b = parseInt(cleanHex.slice(4, 6), 16) / 255;
+
+  const max = Math.max(r, g, b),
+    min = Math.min(r, g, b);
+  let h,
+    s,
+    l = (max + min) / 2;
+
+  if (max === min) {
+    h = s = 0; // when color is grayscale (black, white, or gray)
+  } else {
+    const d = max - min;
+    // If d is large, the color is very vibrant. If d is small, the color is close to gray
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    switch (max) {
+      case r:
+        h = ((g - b) / d + (g < b ? 6 : 0)) / 6;
+        break;
+      case g:
+        h = ((b - r) / d + 2) / 6;
+        break;
+      case b:
+        h = ((r - g) / d + 4) / 6;
+        break;
+    }
   }
 
-  return suggested;
+  const hslToHex = (h, s, l) => {
+    const hue2rgb = (p, q, t) => {
+      if (t < 0) t += 1;
+      if (t > 1) t -= 1;
+      if (t < 1 / 6) return p + (q - p) * 6 * t;
+      if (t < 1 / 2) return q;
+      if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+      return p;
+    };
+    let r, g, b;
+    if (s === 0) {
+      r = g = b = l;
+    } else {
+      const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+      const p = 2 * l - q;
+      r = hue2rgb(p, q, h + 1 / 3);
+      g = hue2rgb(p, q, h);
+      b = hue2rgb(p, q, h - 1 / 3);
+    }
+    const toHex = (x) =>
+      Math.round(x * 255)
+        .toString(16)
+        .padStart(2, '0')
+        .toUpperCase();
+    return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+  };
+
+  // binary search to get best contrast
+  let low = isLightBackground ? 0 : l;
+  let high = isLightBackground ? l : 1;
+  let best = null;
+
+  for (let i = 0; i < 20; i++) {
+    const mid = (low + high) / 2;
+    const candidate = hslToHex(h, s, mid);
+    const ratio = getContrastRatio(candidate, background);
+
+    if (ratio >= 4.5) {
+      best = candidate;
+      if (isLightBackground) high = mid;
+      else low = mid;
+    } else {
+      if (isLightBackground) low = mid;
+      else high = mid;
+    }
+  }
+
+  return best ?? safeFallback;
 };
 
 const checkStatus = (ratio, threshold) => {
