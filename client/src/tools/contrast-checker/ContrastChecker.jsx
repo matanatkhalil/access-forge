@@ -38,9 +38,11 @@ const ContrastChecker = () => {
   }
 
   return (
-    <div className="contrast-checker flex flex-col items-center min-h-screen bg-white p-8">
+    <main className="contrast-checker flex flex-col items-center min-h-screen bg-white p-8">
+      <h1 className="text-2xl font-bold text-slate-900 mb-12 sr-only">Access Forge</h1>
       {/* Input Section */}
-      <div className="color-inputs flex flex-col gap-8 mb-12 mt-12 w-full max-w-lg">
+      <section className="color-inputs flex flex-col gap-8 mb-12 mt-12 w-full max-w-lg">
+        <h2 className="sr-only">Color Selection</h2>
         <div className="flex flex-col gap-3">
           <label htmlFor="foreground-text" className="text-lg font-semibold text-slate-700">
             Foreground Color
@@ -91,111 +93,125 @@ const ContrastChecker = () => {
           </div>
         </div>
         {!isForegroundValid || !isBackgroundValid ? (
-          <span id="color-error" role="alert" className="text-red-500 text-base">
+          <span id="color-error" role="alert" className="text-red-700 text-base">
             Please enter valid hex codes (e.g., #000000, #FFFFFF)
           </span>
         ) : null}
-      </div>
+      </section>
       {/* Ratio Display */}
-      <div className="mb-6 text-center" aria-live="polite" aria-atomic="true" role="status">
-        <p className="text-base uppercase tracking-widest text-slate-400 font-bold mb-1">
+      <section className="mb-6 text-center" aria-live="polite" aria-atomic="true" role="status">
+        <h2 className="text-base uppercase tracking-widest text-slate-600 font-bold mb-1">
           Current Ratio
-        </p>
+        </h2>
         <p className="text-3xl font-black text-indigo-600">
           <span aria-label={contrastRatio !== '—' ? `${contrastRatio} to 1` : 'Not available'}>
             {contrastRatio}
           </span>
         </p>
-      </div>
+      </section>
       {/* Results Table */}
-      <div
-        role="table"
-        aria-label="WCAG contrast compliance results"
-        className="contrast-results grid grid-cols-3 gap-y-8 gap-x-12 p-10 bg-slate-50 border border-slate-100 rounded-2xl w-full max-w-2xl items-center shadow-sm"
-      >
-        {/* Header Row */}
-        <div
-          role="columnheader"
-          className="text-base font-bold text-slate-400 uppercase tracking-widest"
+      <section className="w-full max-w-2xl mt-8">
+        <h2 className="sr-only">Compliance Results</h2>
+        <table
+          className="contrast-results gap-y-8 gap-x-12 p-10 bg-slate-50 border border-slate-100 rounded-2xl w-full max-w-2xl items-center shadow-sm"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            columnGap: '3rem',
+            rowGap: '2rem',
+            padding: '2.5rem',
+          }}
         >
-          Text Type
-        </div>
-        <div
-          role="columnheader"
-          className="text-base font-bold text-slate-400 uppercase tracking-widest text-center"
-        >
-          AA Level
-        </div>
-        <div
-          role="columnheader"
-          className="text-base font-bold text-slate-400 uppercase tracking-widest text-center"
-        >
-          AAA Level
-        </div>
+          {/* Header Row */}
+          <thead style={{ display: 'contents' }}>
+            <tr style={{ display: 'contents' }}>
+              <th
+                scope="col"
+                className="text-base font-bold text-slate-600 uppercase tracking-widest"
+              >
+                Text Type
+              </th>
+              <th
+                scope="col"
+                className="text-base font-bold text-slate-600 uppercase tracking-widest text-center"
+              >
+                AA Level
+              </th>
+              <th
+                scope="col"
+                className="text-base font-bold text-slate-600 uppercase tracking-widest text-center"
+              >
+                AAA Level
+              </th>
+            </tr>
+          </thead>
 
-        {/* Normal Text Row */}
-        <div role="rowheader" className="text-base font-bold text-slate-800">
-          Normal Text
-        </div>
-        <div
-          role="cell"
-          className={`text-center py-3 rounded-xl font-black text-base ${
-            contrastRatio === '—'
-              ? 'text-slate-400 bg-slate-100'
-              : aaNormalText(contrastRatio) === 'Pass'
-                ? 'text-green-600 bg-green-100/50'
-                : 'text-red-600 bg-red-100/50'
-          }`}
-        >
-          {contrastRatio === '—' ? '—' : aaNormalText(contrastRatio)}
-        </div>
-        <div
-          role="cell"
-          className={`text-center py-3 rounded-xl font-black text-base ${
-            contrastRatio === '—'
-              ? 'text-slate-400 bg-slate-100'
-              : aaaNormalText(contrastRatio) === 'Pass'
-                ? 'text-green-600 bg-green-100/50'
-                : 'text-red-600 bg-red-100/50'
-          }`}
-        >
-          {contrastRatio === '—' ? '—' : aaaNormalText(contrastRatio)}
-        </div>
+          {/* Normal Text Row */}
+          <tbody style={{ display: 'contents' }}>
+            <tr style={{ display: 'contents' }}>
+              <th scope="row" className="text-base font-bold text-slate-800">
+                Normal Text
+              </th>
+              <td
+                className={`text-center py-3 rounded-xl font-black text-base ${
+                  contrastRatio === '—'
+                    ? 'text-slate-600 bg-slate-100'
+                    : aaNormalText(contrastRatio) === 'Pass'
+                      ? 'text-green-600 bg-green-100/50'
+                      : 'text-red-600 bg-red-100/50'
+                }`}
+              >
+                {contrastRatio === '—' ? '—' : aaNormalText(contrastRatio)}
+              </td>
+              <td
+                className={`text-center py-3 rounded-xl font-black text-base ${
+                  contrastRatio === '—'
+                    ? 'text-slate-600 bg-slate-100'
+                    : aaaNormalText(contrastRatio) === 'Pass'
+                      ? 'text-green-600 bg-green-100/50'
+                      : 'text-red-600 bg-red-100/50'
+                }`}
+              >
+                {contrastRatio === '—' ? '—' : aaaNormalText(contrastRatio)}
+              </td>
+            </tr>
 
-        {/* Large Text Row */}
-        <div role="rowheader" className="text-base font-bold text-slate-800">
-          Large Text
-        </div>
-        <div
-          role="cell"
-          className={`text-center py-3 rounded-xl font-black text-base ${
-            contrastRatio === '—'
-              ? 'text-slate-400 bg-slate-100'
-              : aaLargeText(contrastRatio) === 'Pass'
-                ? 'text-green-600 bg-green-100/50'
-                : 'text-red-600 bg-red-100/50'
-          }`}
-        >
-          {contrastRatio === '—' ? '—' : aaLargeText(contrastRatio)}
-        </div>
-        <div
-          role="cell"
-          className={`text-center py-3 rounded-xl font-black text-base ${
-            contrastRatio === '—'
-              ? 'text-slate-400 bg-slate-100'
-              : aaaLargeText(contrastRatio) === 'Pass'
-                ? 'text-green-600 bg-green-100/50'
-                : 'text-red-600 bg-red-100/50'
-          }`}
-        >
-          {contrastRatio === '—' ? '—' : aaaLargeText(contrastRatio)}
-        </div>
-      </div>
+            {/* Large Text Row */}
+            <tr style={{ display: 'contents' }}>
+              <th scope="row" className="text-base font-bold text-slate-800">
+                Large Text
+              </th>
+              <td
+                className={`text-center py-3 rounded-xl font-black text-base ${
+                  contrastRatio === '—'
+                    ? 'text-slate-600 bg-slate-100'
+                    : aaLargeText(contrastRatio) === 'Pass'
+                      ? 'text-green-600 bg-green-100/50'
+                      : 'text-red-600 bg-red-100/50'
+                }`}
+              >
+                {contrastRatio === '—' ? '—' : aaLargeText(contrastRatio)}
+              </td>
+              <td
+                className={`text-center py-3 rounded-xl font-black text-base ${
+                  contrastRatio === '—'
+                    ? 'text-slate-600 bg-slate-100'
+                    : aaaLargeText(contrastRatio) === 'Pass'
+                      ? 'text-green-600 bg-green-100/50'
+                      : 'text-red-600 bg-red-100/50'
+                }`}
+              >
+                {contrastRatio === '—' ? '—' : aaaLargeText(contrastRatio)}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
       {suggestion && passes && (
-        <div className="mt-8 p-6 bg-amber-50 border border-amber-200 rounded-2xl w-full max-w-2xl">
-          <p className="text-sm font-bold uppercase tracking-widest text-amber-600 mb-4">
+        <section className="mt-8 p-6 bg-amber-50 border border-amber-200 rounded-2xl w-full max-w-2xl">
+          <h2 className="text-sm font-bold uppercase tracking-widest text-amber-800 mb-4">
             💡 Suggested Fix
-          </p>
+          </h2>
           <div className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <div
@@ -206,7 +222,7 @@ const ContrastChecker = () => {
               <div>
                 <p className="text-sm text-slate-500">Change foreground to</p>
                 <p className="font-mono font-bold text-slate-800">{suggestion}</p>
-                <p className="text-xs text-green-600 font-semibold mt-1">
+                <p className="text-xs text-green-800 font-semibold mt-1">
                   New ratio: {newRatio} — {passes ? 'Passes AA' : 'Still fails AA'}
                 </p>
               </div>
@@ -219,12 +235,12 @@ const ContrastChecker = () => {
               Apply
             </button>
           </div>
-        </div>
+        </section>
       )}
-      <div className="mt-12 pt-8 border-t border-slate-100 w-full max-w-2xl text-center">
-        <p className="text-[12px] text-slate-500 uppercase tracking-[0.2em] font-bold mb-6">
+      <footer className="mt-12 pt-8 border-t border-slate-100 w-full max-w-2xl text-center">
+        <h2 className="text-[12px] text-slate-500 uppercase tracking-[0.2em] font-bold mb-6">
           WCAG Reference Definitions
-        </p>
+        </h2>
         <div className="flex flex-wrap justify-center gap-x-12 gap-y-3 text-xs text-slate-600">
           <p>
             <span className="font-bold text-slate-700">Large Text:</span> ≥18pt (24px) Regular or
@@ -235,8 +251,8 @@ const ContrastChecker = () => {
             thresholds
           </p>
         </div>
-      </div>
-    </div>
+      </footer>
+    </main>
   );
 };
 
