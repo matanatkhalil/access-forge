@@ -4,10 +4,10 @@ A platform of assistive technology and accessibility experiences, built for user
 
 ## Tools
 
-- **AAC Communication Board** — A symbol-based communication board for users who rely on augmentative and alternative communication.
+- **AAC Board** — A symbol-based communication board for users who rely on augmentative and alternative communication.
 - **Screen Reader Practice Environment** — An interactive sandbox for learning and practicing screen reader navigation techniques.
 - **Keyboard Navigation Practice Tool** — Guided exercises for mastering keyboard-only navigation across common UI patterns, built for users who rely on keyboards and developers who want to understand their experience.
-- **WCAG Contrast Checker** — A tool to test foreground and background color combinations against WCAG accessibility standards.
+- **WCAG Contrast Checker** — A tool to test foreground and background color combinations against WCAG standards.
 
 ## Project Structure
 
