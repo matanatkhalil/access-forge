@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import TabExercise from './exercises/TabExercise';
 import ArrowKeyExercise from './exercises/ArrowKeyExercise';
 import SkipLinkExercise from './exercises/SkipLinkExercise';
@@ -64,7 +64,31 @@ const EXERCISES = [
     title: 'Challenge 3: Bypass Blocks (Skip Links)',
     description:
       'Learn to skip repetitive navigation headers and jump straight to the main page content.',
-    steps: [],
+    steps: [
+      {
+        type: 'focus',
+        targetId: 'skip-link-btn',
+        instruction: 'Press Tab to reveal the hidden "Skip to Main Content" button!',
+      },
+      {
+        type: 'keydown',
+        key: 'Enter',
+        targetId: 'skip-link-btn',
+        instruction: 'Press Enter to activate the link and warp focus to the main content area.',
+      },
+      {
+        type: 'focus',
+        targetId: 'main-content-btn',
+        instruction:
+          'Focus is now safely inside the main container. Press Tab to highlight the primary action button!',
+      },
+      {
+        type: 'keydown',
+        key: 'Enter',
+        targetId: 'main-content-btn',
+        instruction: 'Perfect! Press Enter to execute the main action and complete the challenge.',
+      },
+    ],
   },
   {
     id: 'focus-trap',
@@ -81,6 +105,9 @@ const KeyboardTrainer = () => {
   const [feedback, setFeedback] = useState('');
   const [nameValue, setNameValue] = useState('');
   const [isChecked, setIsChecked] = useState(false);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+
+  const exerciseContainerRef = useRef(null);
 
   const currentExercise = EXERCISES.find((ex) => ex.id === activeExerciseId);
   const currentStep = currentExercise?.steps[currentStepIdx];
@@ -97,10 +124,15 @@ const KeyboardTrainer = () => {
     setFeedback('');
     setNameValue('');
     setIsChecked(false);
+
+    // Warp focus back to the container wrapper so the next Tab press hits Step 1
+    setTimeout(() => {
+      exerciseContainerRef.current?.focus();
+    }, 10);
   };
 
   const handleFocus = (e) => {
-    if (!currentStep || currentStep.type !== 'focus') return;
+    if (isCompleted || !currentStep || currentStep.type !== 'focus') return;
     if (e.target.id === currentStep.targetId) {
       setFeedback('Focus reached! Follow the next instruction please.');
       setCurrentStepIdx((prev) => prev + 1);
@@ -108,7 +140,7 @@ const KeyboardTrainer = () => {
   };
 
   const handleKeyDown = (e) => {
-    if (!currentStep || currentStep.type !== 'keydown') return;
+    if (isCompleted || !currentStep || currentStep.type !== 'keydown') return;
     if (e.key === currentStep.key && e.target.id === currentStep.targetId) {
       if (e.key === ' ') {
         e.preventDefault(); // Prevents page scrolling on spacebar press
@@ -160,7 +192,7 @@ const KeyboardTrainer = () => {
                     setActiveExerciseId(ex.id);
                     resetTrainer();
                   }}
-                  className="w-full py-2.5 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition text-center text-sm"
+                  className="w-full py-2.5 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition text-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600"
                 >
                   Start Environment
                 </button>
@@ -176,12 +208,21 @@ const KeyboardTrainer = () => {
   return (
     <div className="w-full min-h-screen bg-slate-50 py-12 px-4">
       <div className="max-w-2xl mx-auto p-8 bg-white text-slate-800 rounded-xl shadow-sm border border-slate-200">
-        <button
-          onClick={() => setActiveExerciseId(null)}
-          className="text-xs font-bold uppercase tracking-wider text-indigo-600 hover:text-indigo-800 mb-4 inline-block focus:underline"
-        >
-          ← Back to Selection
-        </button>
+        <div className="flex items-center justify-between mb-4">
+          <button
+            onClick={() => setActiveExerciseId(null)}
+            className="text-xs font-bold uppercase tracking-wider text-indigo-600 hover:text-indigo-800 inline-block focus:underline"
+          >
+            ← Back to Selection
+          </button>
+
+          <button
+            onClick={() => setIsSheetOpen(true)}
+            className="text-xs font-bold text-slate-600 hover:text-indigo-600 bg-slate-100 hover:bg-slate-200/70 px-3 py-1.5 rounded-lg transition"
+          >
+            View Shortcuts
+          </button>
+        </div>
 
         <h1 className="text-3xl font-bold tracking-tight text-slate-900 mb-1">
           {currentExercise.title}
@@ -195,13 +236,17 @@ const KeyboardTrainer = () => {
         <div className="bg-indigo-50 p-5 rounded-lg mb-8 border-l-4 border-indigo-600 min-h-[72px] flex items-center">
           <p className="text-base text-slate-800 font-medium leading-relaxed">
             {isCompleted
-              ? '🎉 Outstanding work! You successfully completed this entire flow using keyboard operations.'
+              ? '🎉 Excellent work! You successfully completed this entire flow using keyboard operations.'
               : currentStep?.instruction}
           </p>
         </div>
 
         {/* Exercise Environment Panel */}
-        <div className="bg-slate-50 p-8 rounded-xl border border-slate-200 space-y-6">
+        <div
+          ref={exerciseContainerRef}
+          tabIndex={-1}
+          className="bg-slate-50 p-8 rounded-xl border border-slate-200 space-y-6"
+        >
           {activeExerciseId === 'tab-navigation' && (
             <TabExercise
               nameValue={nameValue}
@@ -222,7 +267,13 @@ const KeyboardTrainer = () => {
             />
           )}
 
-          {activeExerciseId === 'skip-links' && <SkipLinkExercise isCompleted={isCompleted} />}
+          {activeExerciseId === 'skip-links' && (
+            <SkipLinkExercise
+              isCompleted={isCompleted}
+              handleFocus={handleFocus}
+              handleKeyDown={handleKeyDown}
+            />
+          )}
 
           {activeExerciseId === 'focus-trap' && (
             <ModalFocusTrapExercise isCompleted={isCompleted} />
@@ -269,6 +320,77 @@ const KeyboardTrainer = () => {
             <p className="text-sm font-semibold text-indigo-700">{feedback}</p>
           </div>
         )}
+      </div>
+      {/* Persistent Sidebar (Shortcut Sheet) */}
+      <div
+        className={`fixed inset-0 z-50 transition-opacity duration-300 ${isSheetOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+      >
+        {/* Backdrop overlay */}
+        <div
+          className="absolute inset-0 bg-slate-900/40 backdrop-blur-xs"
+          onClick={() => setIsSheetOpen(false)}
+        />
+
+        {/* Side Panel */}
+        <div
+          className={`absolute top-0 right-0 h-full w-80 bg-white shadow-2xl p-6 flex flex-col justify-between border-l border-slate-200 transform transition-transform duration-300 ease-out ${isSheetOpen ? 'translate-x-0' : 'translate-x-full'}`}
+        >
+          <div>
+            <div className="flex items-center justify-between border-b border-slate-100 pb-4 mb-6">
+              <h2 className="text-lg font-bold text-slate-900">Shortcut Sheet</h2>
+              <button
+                onClick={() => setIsSheetOpen(false)}
+                className="text-slate-500 hover:text-slate-800 font-bold text-lg p-1"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <span className="inline-block px-2 py-0.5 bg-slate-100 border border-slate-200 rounded font-mono text-xs font-bold text-slate-700">
+                  Tab
+                </span>
+                <p className="text-xs text-slate-500 mt-1">
+                  Advances focus forward to the next interactive web element.
+                </p>
+              </div>
+              <div>
+                <span className="inline-block px-2 py-0.5 bg-slate-100 border border-slate-200 rounded font-mono text-xs font-bold text-slate-700">
+                  Shift + Tab
+                </span>
+                <p className="text-xs text-slate-500 mt-1">
+                  Reverses focus direction, moving back to the previous element.
+                </p>
+              </div>
+              <div>
+                <span className="inline-block px-2 py-0.5 bg-slate-100 border border-slate-200 rounded font-mono text-xs font-bold text-slate-700">
+                  Enter
+                </span>
+                <p className="text-xs text-slate-500 mt-1">
+                  Triggers links, form submissions, and button activations.
+                </p>
+              </div>
+              <div>
+                <span className="inline-block px-2 py-0.5 bg-slate-100 border border-slate-200 rounded font-mono text-xs font-bold text-slate-700">
+                  Spacebar
+                </span>
+                <p className="text-xs text-slate-500 mt-1">
+                  Toggles native checkboxes and controls page viewport scrolling.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="border-t border-slate-100 pt-4">
+            <button
+              onClick={() => setIsSheetOpen(false)}
+              className="w-full py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-lg transition"
+            >
+              Close Reference
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
