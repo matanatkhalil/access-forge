@@ -56,7 +56,30 @@ const EXERCISES = [
         targetId: 'menu-trigger',
         instruction: 'Tab onto the "Options Menu" button.',
       },
-      // Additional steps will go here
+      {
+        type: 'keydown',
+        key: 'Enter',
+        targetId: 'menu-trigger',
+        instruction: 'Press Enter to open the Options Menu.',
+      },
+      {
+        type: 'keydown',
+        key: 'ArrowDown',
+        targetId: 'menu-trigger',
+        instruction: 'Press the Down Arrow key to navigate into the menu items.',
+      },
+      {
+        type: 'keydown',
+        key: 'ArrowDown',
+        targetId: 'menu-item-0',
+        instruction: 'Press the Down Arrow key again to highlight "Settings".',
+      },
+      {
+        type: 'keydown',
+        key: 'Enter',
+        targetId: 'menu-item-1',
+        instruction: 'Press Enter on "Settings" to select it and complete the challenge.',
+      },
     ],
   },
   {
