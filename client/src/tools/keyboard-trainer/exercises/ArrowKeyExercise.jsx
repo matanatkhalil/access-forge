@@ -13,7 +13,7 @@ const ArrowKeyExercise = ({ isCompleted, handleFocus, handleKeyDown }) => {
     if (isCompleted) return;
 
     // Handle opening menu with Enter or Space
-    if (!isOpen && (e.key === 'Enter' || e.key === '')) {
+    if (!isOpen && (e.key === 'Enter' || e.key === ' ')) {
       e.preventDefault();
       setIsOpen(true);
 

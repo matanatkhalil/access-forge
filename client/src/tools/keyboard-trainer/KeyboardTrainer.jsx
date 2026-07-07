@@ -58,9 +58,9 @@ const EXERCISES = [
       },
       {
         type: 'keydown',
-        key: 'Enter',
+        key: ['Enter', ' '],
         targetId: 'menu-trigger',
-        instruction: 'Press Enter to open the Options Menu.',
+        instruction: 'Press Enter or Space to open the Options Menu.',
       },
       {
         type: 'keydown',
@@ -156,6 +156,7 @@ const KeyboardTrainer = () => {
 
   const handleFocus = (e) => {
     if (isCompleted || !currentStep || currentStep.type !== 'focus') return;
+
     if (e.target.id === currentStep.targetId) {
       setFeedback('Focus reached! Follow the next instruction please.');
       setCurrentStepIdx((prev) => prev + 1);
@@ -164,7 +165,12 @@ const KeyboardTrainer = () => {
 
   const handleKeyDown = (e) => {
     if (isCompleted || !currentStep || currentStep.type !== 'keydown') return;
-    if (e.key === currentStep.key && e.target.id === currentStep.targetId) {
+
+    const isKeyValid = Array.isArray(currentStep.key)
+      ? currentStep.key.includes(e.key)
+      : e.key === currentStep.key;
+
+    if (isKeyValid && e.target.id === currentStep.targetId) {
       if (e.key === ' ') {
         e.preventDefault(); // Prevents page scrolling on spacebar press
 
