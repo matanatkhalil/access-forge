@@ -115,10 +115,30 @@ const EXERCISES = [
   },
   {
     id: 'focus-trap',
-    title: 'Challenge 4: Modal Focus Trapping',
+    title: 'Challenge 4: Modal Focus Management',
     description:
-      'Practice navigating inside modal dialogs securely without losing semantic context.',
-    steps: [],
+      "Learn how to keep your keyboard navigation inside a popup window so you don't get lost in the background.",
+    steps: [
+      {
+        key: ['Enter', ' '],
+        targetId: 'modal-trigger',
+        instruction: 'Press Enter or Space to open the Delete Account window.',
+        type: 'keydown',
+      },
+      {
+        key: 'Tab',
+        targetId: 'confirm-btn',
+        instruction:
+          'Press Tab to navigate inside the modal. Notice how the focus is contained inside the popup.',
+        type: 'keydown',
+      },
+      {
+        key: 'Escape',
+        targetId: 'cancel-btn',
+        instruction: 'Press Escape to close the modal and complete the challenge.',
+        type: 'keydown',
+      },
+    ],
   },
 ];
 
@@ -336,7 +356,7 @@ const KeyboardTrainer = () => {
                   setActiveExerciseId(null);
                   resetTrainer();
                 }}
-                className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-semibold hover:bg-indigo-700 transition shadow-sm"
+                className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-semibold hover:bg-indigo-700 transition shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600"
               >
                 Finish & Return to Dashboard
               </button>
