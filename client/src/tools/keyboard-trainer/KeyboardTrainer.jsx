@@ -120,6 +120,12 @@ const EXERCISES = [
       "Learn how to keep your keyboard navigation inside a popup window so you don't get lost in the background.",
     steps: [
       {
+        key: 'Tab',
+        targetId: 'modal-trigger',
+        instruction: 'Press Tab to focus on the button.',
+        type: 'focus',
+      },
+      {
         key: ['Enter', ' '],
         targetId: 'modal-trigger',
         instruction: 'Press Enter or Space to open the Delete Account window.',
@@ -149,6 +155,7 @@ const KeyboardTrainer = () => {
   const [nameValue, setNameValue] = useState('');
   const [isChecked, setIsChecked] = useState(false);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const exerciseContainerRef = useRef(null);
 
@@ -257,37 +264,41 @@ const KeyboardTrainer = () => {
   return (
     <div className="w-full min-h-screen bg-slate-50 py-12 px-4">
       <div className="max-w-2xl mx-auto p-8 bg-white text-slate-800 rounded-xl shadow-sm border border-slate-200">
-        <div className="flex items-center justify-between mb-4">
-          <button
-            onClick={() => setActiveExerciseId(null)}
-            className="text-xs font-bold uppercase tracking-wider text-indigo-600 hover:text-indigo-800 inline-block focus:underline"
-          >
-            ← Back to Selection
-          </button>
+        <div className={isModalOpen ? 'pointer-events-none select-none' : ''}>
+          <div className="flex items-center justify-between mb-4">
+            <button
+              onClick={() => setActiveExerciseId(null)}
+              disabled={isModalOpen}
+              className={`text-xs font-bold uppercase tracking-wider text-indigo-600 hover:text-indigo-800 inline-block focus:underline ${isModalOpen ? 'pointer-events-none opacity-50' : ''}`}
+            >
+              ← Back to Selection
+            </button>
 
-          <button
-            onClick={() => setIsSheetOpen(true)}
-            className="text-xs font-bold text-slate-600 hover:text-indigo-600 bg-slate-100 hover:bg-slate-200/70 px-3 py-1.5 rounded-lg transition"
-          >
-            View Shortcuts
-          </button>
-        </div>
+            <button
+              onClick={() => setIsSheetOpen(true)}
+              disabled={isModalOpen}
+              className={`text-xs font-bold text-slate-600 hover:text-indigo-600 bg-slate-100 hover:bg-slate-200/70 px-3 py-1.5 rounded-lg transition ${isModalOpen ? 'pointer-events-none opacity-50' : ''}`}
+            >
+              View Shortcuts
+            </button>
+          </div>
 
-        <h1 className="text-3xl font-bold tracking-tight text-slate-900 mb-1">
-          {currentExercise.title}
-        </h1>
-        <p className="text-sm font-medium text-slate-500 mb-6">
-          {isCompleted
-            ? 'Challenge Complete'
-            : `Step ${currentStepIdx + 1} of ${currentExercise.steps.length}`}
-        </p>
-
-        <div className="bg-indigo-50 p-5 rounded-lg mb-8 border-l-4 border-indigo-600 min-h-[72px] flex items-center">
-          <p className="text-base text-slate-800 font-medium leading-relaxed">
+          <h1 className="text-3xl font-bold tracking-tight text-slate-900 mb-1">
+            {currentExercise.title}
+          </h1>
+          <p className="text-sm font-medium text-slate-500 mb-6">
             {isCompleted
-              ? '🎉 Excellent work! You successfully completed this entire flow using keyboard operations.'
-              : currentStep?.instruction}
+              ? 'Challenge Complete'
+              : `Step ${currentStepIdx + 1} of ${currentExercise.steps.length}`}
           </p>
+
+          <div className="bg-indigo-50 p-5 rounded-lg mb-8 border-l-4 border-indigo-600 min-h-[72px] flex items-center">
+            <p className="text-base text-slate-800 font-medium leading-relaxed">
+              {isCompleted
+                ? '🎉 Excellent work! You successfully completed this entire flow using keyboard operations.'
+                : currentStep?.instruction}
+            </p>
+          </div>
         </div>
 
         {/* Exercise Environment Panel */}
@@ -325,7 +336,12 @@ const KeyboardTrainer = () => {
           )}
 
           {activeExerciseId === 'focus-trap' && (
-            <ModalFocusTrapExercise isCompleted={isCompleted} />
+            <ModalFocusTrapExercise
+              handleKeyDown={handleKeyDown}
+              handleFocus={handleFocus}
+              isCompleted={isCompleted}
+              onModalToggle={setIsModalOpen}
+            />
           )}
         </div>
 
@@ -365,7 +381,9 @@ const KeyboardTrainer = () => {
         )}
 
         {feedback && !isCompleted && (
-          <div className="mt-6 p-3 bg-slate-100 rounded-lg text-center">
+          <div
+            className={`mt-6 p-3 bg-slate-100 rounded-lg text-center ${isModalOpen ? 'pointer-events-none select-none' : ''}`}
+          >
             <p className="text-sm font-semibold text-indigo-700">{feedback}</p>
           </div>
         )}
