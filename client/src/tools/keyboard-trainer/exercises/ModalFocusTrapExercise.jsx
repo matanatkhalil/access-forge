@@ -101,12 +101,15 @@ const ModalFocusTrapExercise = ({ handleKeyDown, isCompleted, handleFocus, onMod
         disabled={isCompleted}
         onFocus={handleFocus}
         onKeyDown={handleTriggerKeyDown}
-        onClick={() => {
+        onClick={(e) => {
+          // If clicked with a mouse, show a quick popup and stop
+          if (e.detail > 0) {
+            alert('⚠️ Keyboard only! Please press Enter or Space.');
+            return;
+          }
+
           if (!isCompleted) {
             setIsOpen(true);
-            if (handleKeyDown) {
-              handleKeyDown({ key: 'Enter', target: triggerButtonRef.current });
-            }
           }
         }}
         className="px-5 py-3 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-lg text-sm shadow-sm transition-all disabled:bg-slate-300 disabled:text-slate-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-600"

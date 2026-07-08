@@ -400,7 +400,7 @@ const KeyboardTrainer = () => {
 
         {/* Side Panel */}
         <div
-          className={`absolute top-0 right-0 h-full w-80 bg-white shadow-2xl p-6 flex flex-col justify-between border-l border-slate-200 transform transition-transform duration-300 ease-out ${isSheetOpen ? 'translate-x-0' : 'translate-x-full'}`}
+          className={`absolute top-0 right-0 h-full overflow-y-auto overscroll-contain space-y-4 w-80 bg-white shadow-2xl p-6 flex flex-col border-l border-slate-200 transition-transform duration-300 ease-out ${isSheetOpen ? 'translate-x-0' : 'translate-x-full'}`}
         >
           <div>
             <div className="flex items-center justify-between border-b border-slate-100 pb-4 mb-6">
@@ -443,7 +443,33 @@ const KeyboardTrainer = () => {
                   Spacebar
                 </span>
                 <p className="text-xs text-slate-500 mt-1">
-                  Toggles native checkboxes and controls page viewport scrolling.
+                  Toggles native checkboxes, activates buttons, and controls page scrolling.
+                </p>
+              </div>
+              <div>
+                <span className="inline-block px-2 py-0.5 bg-slate-100 border border-slate-200 rounded font-mono text-xs font-bold text-slate-700">
+                  Arrow Keys
+                </span>
+                <p className="text-xs text-slate-500 mt-1">
+                  Navigates between internal items inside custom components like dropdown menus,
+                  radio groups, and tabs.
+                </p>
+              </div>
+              <div>
+                <span className="inline-block px-2 py-0.5 bg-slate-100 border border-slate-200 rounded font-mono text-xs font-bold text-slate-700">
+                  Escape
+                </span>
+                <p className="text-xs text-slate-500 mt-1">
+                  Instantly closes active popups, modal dialog windows, and dropdown menus.
+                </p>
+              </div>
+              <div>
+                <span className="inline-block px-2 py-0.5 bg-slate-100 border border-slate-200 rounded font-mono text-xs font-bold text-slate-700">
+                  Skip Links
+                </span>
+                <p className="text-xs text-slate-500 mt-1">
+                  Hidden shortcuts that appear on first focus, allowing users to jump directly past
+                  repetitive headers to the main content.
                 </p>
               </div>
             </div>
