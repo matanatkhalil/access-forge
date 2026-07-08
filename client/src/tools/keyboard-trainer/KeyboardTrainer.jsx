@@ -122,7 +122,7 @@ const EXERCISES = [
       {
         key: 'Tab',
         targetId: 'modal-trigger',
-        instruction: 'Press Tab to focus on the button.',
+        instruction: "Press Tab to navigate to the 'Open Delete Account Window' button.",
         type: 'focus',
       },
       {

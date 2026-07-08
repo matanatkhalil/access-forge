@@ -121,7 +121,7 @@ const ModalFocusTrapExercise = ({ handleKeyDown, isCompleted, handleFocus, onMod
         >
           <div
             ref={modalRef}
-            className="bg-white border border-slate-200 p-8 rounded-xl max-w-sm w-full shadow-xl text-center space-y-6 select-text"
+            className="bg-white border border-slate-200 p-8 rounded-xl max-w-sm w-full shadow-xl text-center space-y-6 !select-text !pointer-events-auto"
           >
             <h3 className="text-lg font-extrabold text-slate-900">Are you absolutely sure?</h3>
             <p className="text-xs text-slate-500 leading-relaxed">
@@ -137,9 +137,6 @@ const ModalFocusTrapExercise = ({ handleKeyDown, isCompleted, handleFocus, onMod
                 onClick={() => {
                   setIsOpen(false);
                   triggerButtonRef.current?.focus();
-                  if (handleKeyDown) {
-                    handleKeyDown({ key: 'Escape', target: { id: 'cancel-btn' } });
-                  }
                 }}
                 className="px-4 py-2 bg-rose-600 text-white rounded-md text-xs font-bold focus:ring-2 focus:ring-rose-500 focus:outline-none"
               >
@@ -151,9 +148,6 @@ const ModalFocusTrapExercise = ({ handleKeyDown, isCompleted, handleFocus, onMod
                 onClick={() => {
                   setIsOpen(false);
                   triggerButtonRef.current?.focus();
-                  if (handleKeyDown) {
-                    handleKeyDown({ key: 'Escape', target: { id: 'cancel-btn' } });
-                  }
                 }}
                 className="px-4 py-2 bg-slate-200 text-slate-700 rounded-md text-xs font-bold focus:ring-2 focus:ring-slate-400 focus:outline-none"
               >

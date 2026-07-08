@@ -62,7 +62,8 @@ const ArrowKeyExercise = ({ isCompleted, handleFocus, handleKeyDown }) => {
     }
   };
   return (
-    <div className="p-6 bg-white rounded-xl border border-slate-200 shadow-sm flex flex-col items-center justify-center min-h-[200px]">
+    <div className="p-6 bg-white rounded-xl border border-slate-200 shadow-sm flex flex-col items-center justify-center min-h-[22rem]">
+      {' '}
       <div className="relative inline-block text-left">
         <button
           id="menu-trigger"
@@ -95,7 +96,7 @@ const ArrowKeyExercise = ({ isCompleted, handleFocus, handleKeyDown }) => {
                   setIsOpen(false);
                   setFocusedIndex(-1);
                 }}
-                className="w-full text-left px-4 py-2.5 text-xs font-medium text-slate-700 hover:bg-slate-50 focus:bg-indigo-50 focus:text-indigo-600 outline-none transition-colors"
+                className="w-full text-left px-4 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50 focus:bg-indigo-50 focus:text-indigo-600 outline-none transition-colors"
               >
                 {item}
               </button>
