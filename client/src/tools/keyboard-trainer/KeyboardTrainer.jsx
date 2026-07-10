@@ -162,6 +162,7 @@ const KeyboardTrainer = () => {
   const exerciseContainerRef = useRef(null);
   const shortcutTriggerRef = useRef(null);
   const sheetCloseBtnRef = useRef(null);
+  const lastExerciseElementRef = useRef(null);
 
   const currentExercise = EXERCISES.find((ex) => ex.id === activeExerciseId);
   const currentStep = currentExercise?.steps[currentStepIdx];
@@ -244,11 +245,14 @@ const KeyboardTrainer = () => {
 
   useEffect(() => {
     if (isSheetOpen) {
-      // When sheet opens, focus the "✕" close button immediately
       sheetCloseBtnRef.current?.focus();
     } else {
-      // When sheet closes, return focus to the button that opened it
-      shortcutTriggerRef.current?.focus();
+      const target = lastExerciseElementRef.current;
+      if (target && document.contains(target)) {
+        target.focus();
+      } else {
+        exerciseContainerRef.current?.focus();
+      }
     }
   }, [isSheetOpen]);
 
@@ -390,6 +394,11 @@ const KeyboardTrainer = () => {
         <div
           ref={exerciseContainerRef}
           tabIndex={-1}
+          onFocus={(e) => {
+            if (e.target !== exerciseContainerRef.current) {
+              lastExerciseElementRef.current = e.target;
+            }
+          }}
           className="bg-slate-50 p-8 rounded-xl border border-slate-200 space-y-6"
         >
           {activeExerciseId === 'tab-navigation' && (
