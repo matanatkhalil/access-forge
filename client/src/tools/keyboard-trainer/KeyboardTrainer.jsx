@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { useParams, useNavigate, Navigate } from 'react-router-dom';
 import TabExercise from './exercises/TabExercise';
 import ArrowKeyExercise from './exercises/ArrowKeyExercise';
 import SkipLinkExercise from './exercises/SkipLinkExercise';
@@ -115,7 +116,7 @@ const EXERCISES = [
     ],
   },
   {
-    id: 'focus-trap',
+    id: 'modal-focus',
     title: 'Challenge 4: Modal Focus Management',
     description:
       "Learn how to keep your keyboard navigation inside a popup window so you don't get lost in the background.",
@@ -150,7 +151,9 @@ const EXERCISES = [
 ];
 
 const KeyboardTrainer = () => {
-  const [activeExerciseId, setActiveExerciseId] = useState(null);
+  const { exerciseId } = useParams();
+  const navigate = useNavigate();
+  const activeExerciseId = exerciseId ?? null;
   const [currentStepIdx, setCurrentStepIdx] = useState(0);
   const [feedback, setFeedback] = useState('');
   const [isError, setIsError] = useState(false);
@@ -256,6 +259,11 @@ const KeyboardTrainer = () => {
     }
   }, [isSheetOpen]);
 
+  // Guard: if the URL has an exerciseId that doesn't match any known exercise, bounce to dashboard
+  if (activeExerciseId && !currentExercise) {
+    return <Navigate to="/keyboard-trainer" replace />;
+  }
+
   // Dashboard Selector View
   if (!activeExerciseId) {
     return (
@@ -280,7 +288,7 @@ const KeyboardTrainer = () => {
                 </div>
                 <button
                   onClick={() => {
-                    setActiveExerciseId(ex.id);
+                    navigate(`/keyboard-trainer/${ex.id}`);
                     resetTrainer();
                   }}
                   className="w-full py-2.5 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition text-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600"
@@ -306,7 +314,7 @@ const KeyboardTrainer = () => {
       >
         <div className="flex items-center justify-between mb-4">
           <button
-            onClick={() => setActiveExerciseId(null)}
+            onClick={() => navigate('/keyboard-trainer')}
             disabled={isModalOpen}
             className={`text-xs font-bold uppercase tracking-wider text-indigo-600 hover:text-indigo-800 inline-block focus:outline-none focus:ring-2 focus:ring-slate-400 ${isModalOpen ? 'pointer-events-none opacity-50' : ''}`}
           >
@@ -363,10 +371,10 @@ const KeyboardTrainer = () => {
               <button
                 onClick={() => {
                   if (nextExercise) {
-                    setActiveExerciseId(nextExercise.id);
+                    navigate(`/keyboard-trainer/${nextExercise.id}`);
                     resetTrainer();
                   } else {
-                    setActiveExerciseId(null);
+                    navigate('/keyboard-trainer');
                     resetTrainer();
                   }
                 }}
@@ -429,7 +437,7 @@ const KeyboardTrainer = () => {
             />
           )}
 
-          {activeExerciseId === 'focus-trap' && (
+          {activeExerciseId === 'modal-focus' && (
             <ModalFocusTrapExercise
               handleKeyDown={handleKeyDown}
               handleFocus={handleFocus}
@@ -452,7 +460,7 @@ const KeyboardTrainer = () => {
               /* If there is another game next in line */
               <button
                 onClick={() => {
-                  setActiveExerciseId(nextExercise.id);
+                  navigate(`/keyboard-trainer/${nextExercise.id}`);
                   resetTrainer();
                 }}
                 className="px-4 py-2 bg-slate-900 text-white rounded-lg text-sm font-semibold hover:bg-slate-800 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
@@ -463,7 +471,7 @@ const KeyboardTrainer = () => {
               /* If they just completed the 4th and final game */
               <button
                 onClick={() => {
-                  setActiveExerciseId(null);
+                  navigate('/keyboard-trainer');
                   resetTrainer();
                 }}
                 className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-semibold hover:bg-indigo-700 transition shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600"

@@ -9,6 +9,7 @@ const App = () => {
       <Route path="/" element={<Home />} />
       <Route path="/contrast-checker" element={<ContrastChecker />} />
       <Route path="/keyboard-trainer" element={<KeyboardTrainer />} />
+      <Route path="/keyboard-trainer/:exerciseId" element={<KeyboardTrainer />} />
     </Routes>
   );
 };
