@@ -112,7 +112,7 @@ const ModalFocusTrapExercise = ({ handleKeyDown, isCompleted, handleFocus, onMod
             setIsOpen(true);
           }
         }}
-        className="px-5 py-3 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-lg text-sm shadow-sm transition-all disabled:bg-slate-300 disabled:text-slate-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-600 disabled:cursor-not-allowed disabled:font-normal"
+        className="px-5 py-3 bg-rose-600 hover:bg-rose-700 text-white font-semibold rounded-lg text-sm shadow-sm transition-all disabled:bg-slate-300 disabled:text-slate-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-600 disabled:cursor-not-allowed"
       >
         {isCompleted ? 'Challenge Completed! ✓' : 'Open Delete Account Window'}
       </button>
