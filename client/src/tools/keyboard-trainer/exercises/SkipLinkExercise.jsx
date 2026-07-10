@@ -4,14 +4,12 @@ const SkipLinkExercise = ({ isCompleted, handleFocus, handleKeyDown }) => {
   const mainHeadingRef = useRef(null);
 
   const handleSkipLinkKeyDown = (e) => {
+    // Always notify the parent engine so it can check for correct/incorrect keys
+    if (handleKeyDown) {
+      handleKeyDown(e);
+    }
     if (e.key === 'Enter') {
       e.preventDefault();
-
-      // Notify the parent state engine that Enter was pressed on this target
-      if (handleKeyDown) {
-        handleKeyDown(e);
-      }
-
       // Focus the heading wrapper programmatically
       mainHeadingRef.current?.focus();
     }

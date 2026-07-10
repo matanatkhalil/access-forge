@@ -302,14 +302,64 @@ const KeyboardTrainer = () => {
             </button>
           </div>
 
-          <h1 className="text-3xl font-bold tracking-tight text-slate-900 mb-1">
+          <h1 className="text-3xl font-bold tracking-tight text-slate-900 mb-4">
             {currentExercise.title}
           </h1>
-          <p className="text-sm font-medium text-slate-500 mb-6">
-            {isCompleted
-              ? 'Challenge Complete'
-              : `Step ${currentStepIdx + 1} of ${currentExercise.steps.length}`}
-          </p>
+          <div className="flex items-center justify-between mb-6 border-b border-slate-100 pb-3">
+            <p className="text-sm font-semibold text-slate-500">
+              {isCompleted
+                ? 'Challenge Complete'
+                : `Step ${currentStepIdx + 1} of ${currentExercise.steps.length}`}
+            </p>
+
+            {/* Only show these secondary controls while the user is actively playing */}
+            {!isCompleted && (
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={resetTrainer}
+                  disabled={isModalOpen}
+                  className={`px-2.5 py-1 bg-slate-50 border border-slate-200 text-slate-500 hover:text-rose-600 hover:bg-rose-50 hover:border-rose-200 rounded-md text-[11px] font-bold transition flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-slate-400 ${
+                    isModalOpen ? 'opacity-30 pointer-events-none' : ''
+                  }`}
+                  title="Restart this challenge from Step 1"
+                >
+                  {/* Vector SVG for restart icon */}
+                  <svg
+                    className="w-3 h-3 stroke-[2.5]"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"
+                    />
+                  </svg>
+                  Reset
+                </button>
+
+                <button
+                  onClick={() => {
+                    if (nextExercise) {
+                      setActiveExerciseId(nextExercise.id);
+                      resetTrainer();
+                    } else {
+                      setActiveExerciseId(null);
+                      resetTrainer();
+                    }
+                  }}
+                  disabled={isModalOpen}
+                  className={`px-2.5 py-1 bg-slate-50 border border-slate-200 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 hover:border-indigo-200 rounded-md text-[11px] font-bold transition focus:outline-none focus:ring-2 focus:ring-slate-400 ${
+                    isModalOpen ? 'opacity-30 pointer-events-none' : ''
+                  }`}
+                  title={nextExercise ? 'Skip to the next challenge' : 'Return to dashboard'}
+                >
+                  {nextExercise ? 'Skip Challenge →' : 'Skip to End →'}
+                </button>
+              </div>
+            )}
+          </div>
 
           <div className="bg-indigo-50 p-5 rounded-lg mb-8 border-l-4 border-indigo-600 min-h-[72px] flex items-center">
             <p className="text-base text-slate-800 font-medium leading-relaxed">
