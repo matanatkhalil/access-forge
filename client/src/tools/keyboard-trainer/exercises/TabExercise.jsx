@@ -44,10 +44,14 @@ const TabExercise = ({
 
       <button
         id="submit-button"
+        tabIndex={isCompleted ? -1 : 0}
         onFocus={handleFocus}
         onKeyDown={handleKeyDown}
-        onClick={() => isCompleted && alert('Form Evaluated!')}
-        className="w-full sm:w-auto px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition"
+        className={`w-full sm:w-auto px-6 py-3 rounded-lg font-semibold shadow-sm transition-all ${
+          isCompleted
+            ? 'bg-slate-300 text-slate-600 cursor-not-allowed focus:outline-none focus:ring-0'
+            : 'bg-indigo-600 hover:bg-indigo-700 text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600'
+        }`}
       >
         Submit
       </button>

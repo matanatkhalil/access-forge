@@ -41,7 +41,12 @@ const SkipLinkExercise = ({ isCompleted, handleFocus, handleKeyDown }) => {
               key={idx}
               href="#"
               onClick={(e) => e.preventDefault()}
-              className="text-[11px] font-bold text-slate-900 hover:text-indigo-700 focus:text-indigo-700 focus:outline-none whitespace-nowrap"
+              tabIndex={isCompleted ? -1 : 0}
+              className={`text-[11px] font-bold whitespace-nowrap transition-colors focus:outline-none ${
+                isCompleted
+                  ? 'text-slate-600 cursor-not-allowed pointer-events-none'
+                  : 'text-slate-900 hover:text-indigo-700 focus:text-indigo-700'
+              }`}
             >
               {item}
             </a>
@@ -73,9 +78,9 @@ const SkipLinkExercise = ({ isCompleted, handleFocus, handleKeyDown }) => {
           onKeyDown={handleKeyDown}
           disabled={isCompleted}
           className="mt-2 px-6 py-3 bg-emerald-700 hover:bg-emerald-800 text-white font-semibold rounded-lg text-sm 
-                     focus:outline-none focus:ring-4 focus:ring-emerald-500/30 focus:ring-offset-2 transition-all shadow-sm"
+                     focus:outline-none focus:ring-4 focus:ring-emerald-500/30 focus:ring-offset-2 transition-all shadow-sm disabled:bg-slate-300 disabled:text-slate-500 disabled:cursor-not-allowed"
         >
-          Interactive Main Action
+          {isCompleted ? 'Challenge Completed! ✓' : 'Interactive Main Action'}
         </button>
       </main>
     </div>

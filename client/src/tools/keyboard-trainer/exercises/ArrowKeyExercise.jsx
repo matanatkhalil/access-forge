@@ -72,7 +72,7 @@ const ArrowKeyExercise = ({ isCompleted, handleFocus, handleKeyDown }) => {
           onKeyDown={handleMenuKeyDown}
           onClick={() => !isCompleted && setIsOpen(!isOpen)}
           disabled={isCompleted}
-          className="px-5 py-2.5 bg-slate-800 text-white disabled:bg-slate-300 disabled:text-slate-500 rounded-lg text-sm font-semibold tracking-wide shadow-sm hover:bg-slate-700 transition-all focus:ring-2 focus:ring-offset-2 focus:ring-slate-800 focus:outline-none"
+          className="px-5 py-2.5 bg-slate-800 text-white rounded-lg text-sm font-semibold tracking-wide shadow-sm hover:bg-slate-700 transition-all focus:ring-2 focus:ring-offset-2 focus:ring-slate-800 focus:outline-none disabled:bg-slate-300 disabled:text-slate-500 disabled:cursor-not-allowed disabled:font-normal"
         >
           {isCompleted ? 'Challenge Completed! ✓' : 'Options Menu'}
         </button>

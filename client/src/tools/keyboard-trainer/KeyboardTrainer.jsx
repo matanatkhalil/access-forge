@@ -340,7 +340,7 @@ const KeyboardTrainer = () => {
                 onClick={resetTrainer}
                 disabled={isModalOpen}
                 className={`px-2.5 py-1 bg-slate-50 border border-slate-200 text-slate-500 hover:text-rose-600 hover:bg-rose-50 hover:border-rose-200 rounded-md text-[11px] font-bold transition flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-slate-400 ${
-                  isModalOpen ? 'opacity-30 pointer-events-none' : ''
+                  isModalOpen ? 'opacity-50 pointer-events-none' : ''
                 }`}
                 title="Restart this challenge from Step 1"
               >
@@ -372,7 +372,7 @@ const KeyboardTrainer = () => {
                 }}
                 disabled={isModalOpen}
                 className={`px-2.5 py-1 bg-slate-50 border border-slate-200 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 hover:border-indigo-200 rounded-md text-[11px] font-bold transition focus:outline-none focus:ring-2 focus:ring-slate-400 ${
-                  isModalOpen ? 'opacity-30 pointer-events-none' : ''
+                  isModalOpen ? 'opacity-50 pointer-events-none' : ''
                 }`}
                 title={nextExercise ? 'Skip to the next challenge' : 'Return to dashboard'}
               >
