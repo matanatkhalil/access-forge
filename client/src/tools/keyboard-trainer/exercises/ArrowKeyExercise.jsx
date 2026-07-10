@@ -40,8 +40,8 @@ const ArrowKeyExercise = ({ isCompleted, handleFocus, handleKeyDown }) => {
       itemRefs.current[nextIndex]?.focus();
     }
 
-    // Handle selecting an item with an Enter
-    if (e.key === 'Enter' && focusedIndex !== -1) {
+    // Handle selecting an item with an Enter or Spacebar
+    if ((e.key === 'Enter' || e.key === ' ') && focusedIndex !== -1) {
       e.preventDefault();
       const selectedItem = menuItems[focusedIndex];
 

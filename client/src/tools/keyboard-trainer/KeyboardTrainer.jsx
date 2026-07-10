@@ -76,9 +76,10 @@ const EXERCISES = [
       },
       {
         type: 'keydown',
-        key: 'Enter',
+        key: ['Enter', ' '],
         targetId: 'menu-item-1',
-        instruction: 'Press Enter on "Settings" to select it and complete the challenge.',
+        instruction:
+          'Press Enter or Spacebar on "Settings" to select it and complete the challenge.',
       },
     ],
   },
@@ -152,6 +153,7 @@ const KeyboardTrainer = () => {
   const [activeExerciseId, setActiveExerciseId] = useState(null);
   const [currentStepIdx, setCurrentStepIdx] = useState(0);
   const [feedback, setFeedback] = useState('');
+  const [isError, setIsError] = useState(false);
   const [nameValue, setNameValue] = useState('');
   const [isChecked, setIsChecked] = useState(false);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
@@ -172,6 +174,7 @@ const KeyboardTrainer = () => {
   const resetTrainer = () => {
     setCurrentStepIdx(0);
     setFeedback('');
+    setIsError(false);
     setNameValue('');
     setIsChecked(false);
 
@@ -185,8 +188,12 @@ const KeyboardTrainer = () => {
     if (isCompleted || !currentStep || currentStep.type !== 'focus') return;
 
     if (e.target.id === currentStep.targetId) {
+      setIsError(false);
       setFeedback('Focus reached! Follow the next instruction please.');
       setCurrentStepIdx((prev) => prev + 1);
+    } else {
+      setIsError(true);
+      setFeedback('Wrong element focused! Keep tabbing to find the correct target.');
     }
   };
 
@@ -205,8 +212,20 @@ const KeyboardTrainer = () => {
           setIsChecked(true);
         }
       }
+      setIsError(false);
       setFeedback('Perfect activation!');
       setCurrentStepIdx((prev) => prev + 1);
+    } else if (e.target.id === currentStep.targetId && !isKeyValid) {
+      setIsError(true);
+      const expected = Array.isArray(currentStep.key)
+        ? currentStep.key.map((k) => (k === ' ' ? 'Spacebar' : k)).join(' or ')
+        : currentStep.key === ' '
+          ? 'Spacebar'
+          : currentStep.key;
+
+      const pressed = e.key === ' ' ? 'Spacebar' : e.key;
+
+      setFeedback(`Wrong key! You pressed "${pressed}", but this step requires "${expected}".`);
     }
   };
 
@@ -382,9 +401,13 @@ const KeyboardTrainer = () => {
 
         {feedback && !isCompleted && (
           <div
-            className={`mt-6 p-3 bg-slate-100 rounded-lg text-center ${isModalOpen ? 'pointer-events-none select-none' : ''}`}
+            className={`mt-6 p-3 rounded-lg text-center transition-colors ${
+              isError
+                ? 'bg-rose-50 border border-rose-200 text-rose-700'
+                : 'bg-slate-100 text-indigo-700'
+            } ${isModalOpen ? 'pointer-events-none select-none' : ''}`}
           >
-            <p className="text-sm font-semibold text-indigo-700">{feedback}</p>
+            <p className="text-sm font-semibold">{feedback}</p>
           </div>
         )}
       </div>
