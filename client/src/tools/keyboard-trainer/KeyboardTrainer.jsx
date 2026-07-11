@@ -278,7 +278,7 @@ const KeyboardTrainer = () => {
             Keyboard Navigation Workspace
           </h1>
           <p className="text-lg text-slate-600 mb-10">
-            Select an interactive environment below to practice assistive navigation patterns.
+            Select an interactive environment below to practice accessible navigation patterns.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
