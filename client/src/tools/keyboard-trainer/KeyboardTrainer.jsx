@@ -185,9 +185,7 @@ const KeyboardTrainer = () => {
     setIsChecked(false);
 
     // Warp focus back to the container wrapper so the next Tab press hits Step 1
-    setTimeout(() => {
-      exerciseContainerRef.current?.focus();
-    }, 10);
+    exerciseContainerRef.current?.focus();
   };
 
   const handleFocus = (e) => {
@@ -258,6 +256,13 @@ const KeyboardTrainer = () => {
       }
     }
   }, [isSheetOpen]);
+
+  // Focus the exercise panel whenever we land on a new exercise via navigation
+  useEffect(() => {
+    if (activeExerciseId) {
+      exerciseContainerRef.current?.focus();
+    }
+  }, [activeExerciseId]);
 
   // Guard: if the URL has an exerciseId that doesn't match any known exercise, bounce to dashboard
   if (activeExerciseId && !currentExercise) {
