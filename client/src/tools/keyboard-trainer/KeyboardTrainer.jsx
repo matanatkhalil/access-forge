@@ -280,6 +280,7 @@ const KeyboardTrainer = () => {
             {EXERCISES.map((ex) => (
               <div
                 key={ex.id}
+                data-testid={`exercise-card-${ex.id}`}
                 className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between"
               >
                 <div>
