@@ -79,7 +79,7 @@ const ArrowKeyExercise = ({ isCompleted, handleFocus, handleKeyDown }) => {
 
         {isOpen && (
           <div
-            className="absolute left-0 mt-2 w-48 bg-white border border-slate-200 rounded-lg shadow-lg py-1 z-50 focus:outline-none"
+            className="absolute left-0 right-0 sm:right-auto mt-2 w-auto sm:w-48 max-w-full bg-white border border-slate-200 rounded-lg shadow-lg py-1 z-50 focus:outline-none"
             onKeyDown={handleMenuKeyDown}
           >
             {menuItems.map((item, idx) => (

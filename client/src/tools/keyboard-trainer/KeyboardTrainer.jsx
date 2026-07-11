@@ -318,7 +318,7 @@ const KeyboardTrainer = () => {
         }`}
         inert={isSheetOpen || isModalOpen ? '' : undefined}
       >
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
           <button
             onClick={() => navigate('/keyboard-trainer')}
             disabled={isModalOpen}
@@ -340,7 +340,7 @@ const KeyboardTrainer = () => {
         <h1 className="text-3xl font-bold tracking-tight text-slate-900 mb-4">
           {currentExercise.title}
         </h1>
-        <div className="flex items-center justify-between mb-6 border-b border-slate-100 pb-3">
+        <div className="flex flex-wrap items-center justify-between gap-y-2 mb-6 border-b border-slate-100 pb-3">
           <p className="text-sm font-semibold text-slate-500">
             {isCompleted
               ? 'Challenge Complete'
@@ -349,7 +349,7 @@ const KeyboardTrainer = () => {
 
           {/* Only show these secondary controls while the user is actively playing */}
           {!isCompleted && (
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center gap-2 flex-shrink-0">
               <button
                 onClick={resetTrainer}
                 disabled={isModalOpen}
@@ -454,7 +454,7 @@ const KeyboardTrainer = () => {
         </div>
 
         {isCompleted && (
-          <div className="mt-8 pt-6 border-t border-slate-100 flex justify-end space-x-4">
+          <div className="mt-8 pt-6 border-t border-slate-100 flex flex-wrap justify-end gap-3">
             <button
               onClick={resetTrainer}
               className="px-4 py-2 border border-slate-300 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50 transition focus:outline-none focus:ring-2 focus:ring-slate-400"
@@ -469,7 +469,7 @@ const KeyboardTrainer = () => {
                   navigate(`/keyboard-trainer/${nextExercise.id}`);
                   resetTrainer();
                 }}
-                className="px-4 py-2 bg-slate-900 text-white rounded-lg text-sm font-semibold hover:bg-slate-800 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
+                className="px-4 py-2 bg-slate-900 text-white rounded-lg text-sm font-semibold hover:bg-slate-800 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black whitespace-nowrap"
               >
                 Next Challenge →
               </button>

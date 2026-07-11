@@ -120,11 +120,11 @@ const ModalFocusTrapExercise = ({ handleKeyDown, isCompleted, handleFocus, onMod
       {isOpen && (
         <div
           onKeyDown={handleModalKeyDown}
-          className="absolute inset-0 bg-slate-900/20 rounded-xl flex items-center justify-center p-4 z-40"
+          className="absolute inset-0 bg-slate-900/20 rounded-xl flex items-center justify-center p-3 z-40"
         >
           <div
             ref={modalRef}
-            className="bg-white border border-slate-200 p-8 rounded-xl max-w-sm w-full shadow-xl text-center space-y-6 !select-text !pointer-events-auto"
+            className="bg-white border border-slate-200 p-4 sm:p-5 rounded-xl max-w-[280px] sm:max-w-sm w-full shadow-xl text-center space-y-3 sm:space-y-4 !select-text !pointer-events-auto"
           >
             <h3 className="text-lg font-extrabold text-slate-900">Are you absolutely sure?</h3>
             <p className="text-xs text-slate-500 leading-relaxed">
@@ -133,7 +133,7 @@ const ModalFocusTrapExercise = ({ handleKeyDown, isCompleted, handleFocus, onMod
               }
             </p>
 
-            <div className="flex gap-3 justify-center">
+            <div className="flex flex-row gap-2 justify-center w-full">
               <button
                 id="confirm-btn"
                 ref={firstElementRef}
@@ -141,9 +141,9 @@ const ModalFocusTrapExercise = ({ handleKeyDown, isCompleted, handleFocus, onMod
                   setIsOpen(false);
                   triggerButtonRef.current?.focus();
                 }}
-                className="px-4 py-2 bg-rose-600 text-white rounded-md text-xs font-bold focus:ring-2 focus:ring-rose-500 focus:outline-none"
+                className="flex-1 px-3 py-2 bg-rose-600 text-white rounded-md text-[11px] sm:text-xs font-bold whitespace-nowrap focus:ring-2 focus:ring-rose-500 focus:outline-none"
               >
-                Confirm Delete
+                Confirm
               </button>
               <button
                 id="cancel-btn"
@@ -152,7 +152,7 @@ const ModalFocusTrapExercise = ({ handleKeyDown, isCompleted, handleFocus, onMod
                   setIsOpen(false);
                   triggerButtonRef.current?.focus();
                 }}
-                className="px-4 py-2 bg-slate-200 text-slate-700 rounded-md text-xs font-bold focus:ring-2 focus:ring-slate-400 focus:outline-none"
+                className="flex-1 px-3 py-2 bg-slate-200 text-slate-700 rounded-md text-[11px] sm:text-xs font-bold whitespace-nowrap focus:ring-2 focus:ring-slate-400 focus:outline-none"
               >
                 Cancel
               </button>

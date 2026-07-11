@@ -35,7 +35,7 @@ const SkipLinkExercise = ({ isCompleted, handleFocus, handleKeyDown }) => {
       <header className="bg-slate-100 p-4 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 opacity-60">
         <span className="text-sm font-bold text-slate-900 tracking-tight">Access Forge</span>
 
-        <nav className="flex flex-wrap items-center gap-x-3 gap-y-1 sm:justify-end">
+        <nav className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 sm:justify-end">
           {navigationLinks.map((item, idx) => (
             <a
               key={idx}
@@ -80,7 +80,7 @@ const SkipLinkExercise = ({ isCompleted, handleFocus, handleKeyDown }) => {
           className="mt-2 px-6 py-3 bg-emerald-700 hover:bg-emerald-800 text-white font-semibold rounded-lg text-sm 
                      focus:outline-none focus:ring-4 focus:ring-emerald-500/30 focus:ring-offset-2 transition-all shadow-sm disabled:bg-slate-300 disabled:text-slate-500 disabled:cursor-not-allowed"
         >
-          {isCompleted ? 'Challenge Completed! ✓' : 'Interactive Main Action'}
+          {isCompleted ? 'Challenge Completed! ✓' : 'Main Action'}
         </button>
       </main>
     </div>
