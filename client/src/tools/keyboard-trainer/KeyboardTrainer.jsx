@@ -9,8 +9,7 @@ const EXERCISES = [
   {
     id: 'tab-navigation',
     title: 'Challenge 1: Tab Navigation Flow',
-    description:
-      'Learn to move through interactive elements sequentially using Tab and activate inputs.',
+    description: 'Learn to move through interactive elements sequentially using the Tab key.',
     steps: [
       {
         type: 'focus',
@@ -26,7 +25,7 @@ const EXERCISES = [
       {
         type: 'focus',
         targetId: 'terms-checkbox',
-        instruction: 'Press Tab to advance onto the "Agree to Terms" checkbox.',
+        instruction: 'Press Tab to advance onto the "I agree to the terms" checkbox.',
       },
       {
         type: 'keydown',
@@ -50,7 +49,7 @@ const EXERCISES = [
   {
     id: 'arrow-keys',
     title: 'Challenge 2: Arrow Key Menus',
-    description: 'Master navigation through custom components like menus, dropdowns, and lists.',
+    description: 'Learn to navigate through a dropdown menu using the arrow keys.',
     steps: [
       {
         type: 'focus',
@@ -119,7 +118,7 @@ const EXERCISES = [
     id: 'modal-focus',
     title: 'Challenge 4: Modal Focus Management',
     description:
-      "Learn how to keep your keyboard navigation inside a popup window so you don't get lost in the background.",
+      "Learn to keep your keyboard focus inside a modal so you don't get lost in the background.",
     steps: [
       {
         key: 'Tab',
@@ -399,7 +398,7 @@ const KeyboardTrainer = () => {
         <div className="bg-indigo-50 p-5 rounded-lg mb-8 border-l-4 border-indigo-600 min-h-[72px] flex items-center">
           <p className="text-base text-slate-800 font-medium leading-relaxed">
             {isCompleted
-              ? '🎉 Excellent work! You successfully completed this entire flow using keyboard operations.'
+              ? '🎉 Excellent work! You successfully completed this entire exercise using only your keyboard.'
               : currentStep?.instruction}
           </p>
         </div>
@@ -533,7 +532,7 @@ const KeyboardTrainer = () => {
                   Tab
                 </span>
                 <p className="text-xs text-slate-500 mt-1">
-                  Advances focus forward to the next interactive web element.
+                  Moves focus forward to the next interactive element.
                 </p>
               </div>
               <div>
@@ -541,7 +540,7 @@ const KeyboardTrainer = () => {
                   Shift + Tab
                 </span>
                 <p className="text-xs text-slate-500 mt-1">
-                  Reverses focus direction, moving back to the previous element.
+                  Moves focus backward to the previous interactive element.
                 </p>
               </div>
               <div>
@@ -549,7 +548,7 @@ const KeyboardTrainer = () => {
                   Enter
                 </span>
                 <p className="text-xs text-slate-500 mt-1">
-                  Triggers links, form submissions, and button activations.
+                  Activates links and buttons, and submits forms.
                 </p>
               </div>
               <div>
@@ -557,7 +556,7 @@ const KeyboardTrainer = () => {
                   Spacebar
                 </span>
                 <p className="text-xs text-slate-500 mt-1">
-                  Toggles native checkboxes, activates buttons, and controls page scrolling.
+                  Toggles checkboxes, activates buttons, and scrolls the page.
                 </p>
               </div>
               <div>
@@ -565,8 +564,8 @@ const KeyboardTrainer = () => {
                   Arrow Keys
                 </span>
                 <p className="text-xs text-slate-500 mt-1">
-                  Navigates between internal items inside custom components like dropdown menus,
-                  radio groups, and tabs.
+                  Navigates between items inside components like dropdown menus, lists, radio
+                  groups, and tabs.
                 </p>
               </div>
               <div>
@@ -574,7 +573,7 @@ const KeyboardTrainer = () => {
                   Escape
                 </span>
                 <p className="text-xs text-slate-500 mt-1">
-                  Instantly closes active popups, modal dialog windows, and dropdown menus.
+                  Closes active modals, dropdown menus, and popups.
                 </p>
               </div>
               <div>
@@ -582,7 +581,7 @@ const KeyboardTrainer = () => {
                   Skip Links
                 </span>
                 <p className="text-xs text-slate-500 mt-1">
-                  Hidden shortcuts that appear on first focus, allowing users to jump directly past
+                  Hidden shortcuts that appear on first focus, allowing you to jump directly past
                   repetitive headers to the main content.
                 </p>
               </div>
