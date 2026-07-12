@@ -184,6 +184,7 @@ const KeyboardTrainer = () => {
     setNameValue('');
     setIsChecked(false);
     setResetCount((prev) => prev + 1);
+    lastExerciseElementRef.current = null;
 
     // Warp focus back to the container wrapper so the next Tab press hits Step 1
     exerciseContainerRef.current?.focus();
