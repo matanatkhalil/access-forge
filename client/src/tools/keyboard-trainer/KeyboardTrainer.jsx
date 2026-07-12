@@ -136,7 +136,7 @@ const EXERCISES = [
         key: 'Tab',
         targetId: 'confirm-btn',
         instruction:
-          'Press Tab to navigate inside the modal. Notice how the focus is contained inside the popup.',
+          'Press Tab to navigate inside the modal. Notice how the focus is contained within it.',
         type: 'keydown',
       },
       {
@@ -317,7 +317,7 @@ const KeyboardTrainer = () => {
         className={`max-w-2xl mx-auto p-8 bg-white text-slate-800 rounded-xl shadow-sm border border-slate-200 ${
           isSheetOpen || isModalOpen ? 'pointer-events-none select-none' : ''
         }`}
-        inert={isSheetOpen || isModalOpen ? true : undefined}
+        inert={isSheetOpen ? true : undefined}
       >
         <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
           <button
