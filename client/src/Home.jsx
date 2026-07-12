@@ -4,9 +4,7 @@ const Home = () => {
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900 font-sans p-6 md:p-12">
       <header className="max-w-4xl mx-auto mb-12 border-b border-slate-200 pb-6">
-        <h1 className="text-4xl font-extrabold tracking-tight text-indigo-600">
-          Access Forge <span className="text-slate-400">/</span>
-        </h1>
+        <h1 className="text-4xl font-extrabold tracking-tight text-indigo-600">Access Forge</h1>
         <p className="mt-2 text-lg text-slate-600">
           A growing suite of assistive technology and accessibility tools.
         </p>
