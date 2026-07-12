@@ -141,7 +141,7 @@ const ModalFocusTrapExercise = ({ handleKeyDown, isCompleted, handleFocus, onMod
                   setIsOpen(false);
                   triggerButtonRef.current?.focus();
                 }}
-                className="flex-1 px-3 py-2 bg-rose-600 text-white rounded-md text-[11px] sm:text-xs font-bold whitespace-nowrap focus:ring-2 focus:ring-rose-500 focus:outline-none"
+                className="flex-1 px-3 py-2 bg-rose-600 text-white rounded-md text-[11px] sm:text-xs font-bold whitespace-nowrap focus:ring-2 focus:ring-offset-2 focus:ring-rose-500 focus:outline-none"
               >
                 Confirm
               </button>

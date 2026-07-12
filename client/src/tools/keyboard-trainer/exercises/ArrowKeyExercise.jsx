@@ -96,7 +96,7 @@ const ArrowKeyExercise = ({ isCompleted, handleFocus, handleKeyDown }) => {
                   setIsOpen(false);
                   setFocusedIndex(-1);
                 }}
-                className="w-full text-left px-4 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50 focus:bg-indigo-50 focus:text-indigo-600 outline-none transition-colors"
+                className="w-full text-left px-4 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50 focus:bg-indigo-50 focus:text-indigo-600 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-600 transition-colors"
               >
                 {item}
               </button>

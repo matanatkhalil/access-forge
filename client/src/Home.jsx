@@ -28,7 +28,10 @@ const Home = () => {
         </div>
 
         {/* Contrast Checker */}
-        <Link to="/contrast-checker">
+        <Link
+          to="/contrast-checker"
+          className="rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600"
+        >
           <div className="p-6 bg-white rounded-xl shadow-sm border border-slate-100 hover:border-indigo-300 transition-colors">
             <h2 className="text-xl font-bold mb-2">Contrast Checker</h2>
             <p className="text-slate-500 mb-4">WCAG-compliant color contrast evaluator.</p>
@@ -36,7 +39,10 @@ const Home = () => {
         </Link>
 
         {/* Keyboard Trainer */}
-        <Link to="/keyboard-trainer">
+        <Link
+          to="/keyboard-trainer"
+          className="rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600"
+        >
           <div className="p-6 bg-white rounded-xl shadow-sm border border-slate-100 hover:border-indigo-300 transition-colors">
             <h2 className="text-xl font-bold mb-2">Keyboard Navigation Trainer</h2>
             <p className="text-slate-500 mb-4">

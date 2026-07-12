@@ -42,7 +42,7 @@ const SkipLinkExercise = ({ isCompleted, handleFocus, handleKeyDown }) => {
               href="#"
               onClick={(e) => e.preventDefault()}
               tabIndex={isCompleted ? -1 : 0}
-              className={`text-[11px] font-bold whitespace-nowrap transition-colors focus:outline-none ${
+              className={`text-[11px] font-bold whitespace-nowrap transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:rounded ${
                 isCompleted
                   ? 'text-slate-600 cursor-not-allowed pointer-events-none'
                   : 'text-slate-900 hover:text-indigo-700 focus:text-indigo-700'

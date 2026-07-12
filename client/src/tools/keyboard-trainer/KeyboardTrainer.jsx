@@ -412,7 +412,7 @@ const KeyboardTrainer = () => {
               lastExerciseElementRef.current = e.target;
             }
           }}
-          className="bg-slate-50 p-8 rounded-xl border border-slate-200 space-y-6"
+          className="bg-slate-50 p-8 rounded-xl border border-slate-200 space-y-6 focus:outline-none focus:ring-2 focus:ring-indigo-600"
         >
           {activeExerciseId === 'tab-navigation' && (
             <TabExercise
