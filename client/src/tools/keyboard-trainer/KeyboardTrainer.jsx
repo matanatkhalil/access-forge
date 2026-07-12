@@ -317,7 +317,7 @@ const KeyboardTrainer = () => {
         className={`max-w-2xl mx-auto p-8 bg-white text-slate-800 rounded-xl shadow-sm border border-slate-200 ${
           isSheetOpen || isModalOpen ? 'pointer-events-none select-none' : ''
         }`}
-        inert={isSheetOpen || isModalOpen ? '' : undefined}
+        inert={isSheetOpen || isModalOpen ? true : undefined}
       >
         <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
           <button
