@@ -54,8 +54,8 @@ const SkipLinkExercise = ({ isCompleted, handleFocus, handleKeyDown }) => {
         </nav>
       </header>
 
-      {/* Primary Content Block */}
-      <main className="p-10 text-center bg-slate-50 min-h-[240px] flex flex-col items-center justify-center gap-y-5">
+      {/* Primary Content Block (visual mock of a page's main region; the real <main> lives in KeyboardTrainer) */}
+      <div className="p-10 text-center bg-slate-50 min-h-[240px] flex flex-col items-center justify-center gap-y-5">
         <div>
           {/* The Heading wrapper acts as the focus landing dock (tabIndex={-1} makes it focusable via JS) */}
           <h2
@@ -82,7 +82,7 @@ const SkipLinkExercise = ({ isCompleted, handleFocus, handleKeyDown }) => {
         >
           {isCompleted ? 'Challenge Completed! ✓' : 'Main Action'}
         </button>
-      </main>
+      </div>
     </div>
   );
 };

@@ -170,8 +170,8 @@ const ContrastChecker = () => {
                   contrastRatio === '—'
                     ? 'text-slate-600 bg-slate-100'
                     : aaNormalText(contrastRatio) === 'Pass'
-                      ? 'text-green-600 bg-green-100/50'
-                      : 'text-red-600 bg-red-100/50'
+                      ? 'text-green-800 bg-green-100/50'
+                      : 'text-red-700 bg-red-100/50'
                 }`}
               >
                 {contrastRatio === '—' ? '—' : aaNormalText(contrastRatio)}
@@ -182,8 +182,8 @@ const ContrastChecker = () => {
                   contrastRatio === '—'
                     ? 'text-slate-600 bg-slate-100'
                     : aaaNormalText(contrastRatio) === 'Pass'
-                      ? 'text-green-600 bg-green-100/50'
-                      : 'text-red-600 bg-red-100/50'
+                      ? 'text-green-800 bg-green-100/50'
+                      : 'text-red-700 bg-red-100/50'
                 }`}
               >
                 {contrastRatio === '—' ? '—' : aaaNormalText(contrastRatio)}
@@ -201,8 +201,8 @@ const ContrastChecker = () => {
                   contrastRatio === '—'
                     ? 'text-slate-600 bg-slate-100'
                     : aaLargeText(contrastRatio) === 'Pass'
-                      ? 'text-green-600 bg-green-100/50'
-                      : 'text-red-600 bg-red-100/50'
+                      ? 'text-green-800 bg-green-100/50'
+                      : 'text-red-700 bg-red-100/50'
                 }`}
               >
                 {contrastRatio === '—' ? '—' : aaLargeText(contrastRatio)}
@@ -213,8 +213,8 @@ const ContrastChecker = () => {
                   contrastRatio === '—'
                     ? 'text-slate-600 bg-slate-100'
                     : aaaLargeText(contrastRatio) === 'Pass'
-                      ? 'text-green-600 bg-green-100/50'
-                      : 'text-red-600 bg-red-100/50'
+                      ? 'text-green-800 bg-green-100/50'
+                      : 'text-red-700 bg-red-100/50'
                 }`}
               >
                 {contrastRatio === '—' ? '—' : aaaLargeText(contrastRatio)}

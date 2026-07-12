@@ -274,7 +274,7 @@ const KeyboardTrainer = () => {
   // Dashboard Selector View
   if (!activeExerciseId) {
     return (
-      <div className="w-full min-h-screen bg-slate-50 py-12 px-4">
+      <main className="w-full min-h-screen bg-slate-50 py-12 px-4">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight mb-2">
             Keyboard Navigation Workspace
@@ -307,13 +307,13 @@ const KeyboardTrainer = () => {
             ))}
           </div>
         </div>
-      </div>
+      </main>
     );
   }
 
   // Active Challenge View
   return (
-    <div className="w-full min-h-screen bg-slate-50 py-12 px-4">
+    <main className="w-full min-h-screen bg-slate-50 py-12 px-4">
       <div
         className={`max-w-2xl mx-auto p-8 bg-white text-slate-800 rounded-xl shadow-sm border border-slate-200 ${
           isSheetOpen || isModalOpen ? 'pointer-events-none select-none' : ''
@@ -602,7 +602,7 @@ const KeyboardTrainer = () => {
           </div>
         </div>
       </div>
-    </div>
+    </main>
   );
 };
 
