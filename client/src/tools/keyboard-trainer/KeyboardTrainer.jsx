@@ -160,6 +160,7 @@ const KeyboardTrainer = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [resetCount, setResetCount] = useState(0);
 
   const exerciseContainerRef = useRef(null);
   const shortcutTriggerRef = useRef(null);
@@ -182,6 +183,7 @@ const KeyboardTrainer = () => {
     setIsError(false);
     setNameValue('');
     setIsChecked(false);
+    setResetCount((prev) => prev + 1);
 
     // Warp focus back to the container wrapper so the next Tab press hits Step 1
     exerciseContainerRef.current?.focus();
@@ -431,6 +433,7 @@ const KeyboardTrainer = () => {
               isCompleted={isCompleted}
               handleFocus={handleFocus}
               handleKeyDown={handleKeyDown}
+              key={resetCount}
             />
           )}
 

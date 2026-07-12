@@ -60,6 +60,12 @@ const ArrowKeyExercise = ({ isCompleted, handleFocus, handleKeyDown }) => {
       setFocusedIndex(-1);
       menuButtonRef.current?.focus();
     }
+
+    // Close menu on Tab, so it doesn't stay open after focus moves away
+    if (e.key === 'Tab') {
+      setIsOpen(false);
+      setFocusedIndex(-1);
+    }
   };
   return (
     <div className="p-6 bg-white rounded-xl border border-slate-200 shadow-sm flex flex-col items-center justify-center min-h-[22rem]">
