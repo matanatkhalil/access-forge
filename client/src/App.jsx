@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import Home from './Home';
 import ContrastChecker from './tools/contrast-checker/ContrastChecker';
 import KeyboardTrainer from './tools/keyboard-trainer/KeyboardTrainer';
-import AACBoard from './tools/aac-board/AacBoard';
+import AACBoard from './tools/aac-board/AACBoard';
 
 const App = () => {
   return (
