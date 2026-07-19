@@ -12,18 +12,17 @@ const Home = () => {
 
       <section className="max-w-4xl mx-auto grid gap-6 md:grid-cols-2 items-stretch">
         {/* AAC Board */}
-        <div className="relative group p-6 bg-white rounded-xl shadow-sm border border-slate-100 opacity-60 cursor-not-allowed transition-all">
-          <div className="absolute inset-0 bg-slate-900/5 flex items-center justify-center rounded-xl opacity-0 group-hover:opacity-100 transition-opacity">
-            <span className="bg-slate-800 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest">
-              Coming Soon
-            </span>
+        <Link
+          to="/aac-board"
+          className="rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600"
+        >
+          <div className="p-6 bg-white rounded-xl shadow-sm border border-slate-100 hover:border-indigo-300 transition-colors">
+            <h2 className="text-xl font-bold mb-2">AAC Board</h2>
+            <p className="text-slate-500 mb-4">
+              Customizable high-contrast board for augmentative and alternative communication.
+            </p>
           </div>
-
-          <h2 className="text-xl font-bold mb-2 text-slate-400">AAC Board</h2>
-          <p className="text-slate-400 mb-4">
-            Customizable high-contrast board for augmentative and alternative communication.
-          </p>
-        </div>
+        </Link>
 
         {/* Contrast Checker */}
         <Link

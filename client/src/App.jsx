@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import Home from './Home';
 import ContrastChecker from './tools/contrast-checker/ContrastChecker';
 import KeyboardTrainer from './tools/keyboard-trainer/KeyboardTrainer';
+import AACBoard from './tools/aac-board/AacBoard';
 
 const App = () => {
   return (
@@ -10,6 +11,7 @@ const App = () => {
       <Route path="/contrast-checker" element={<ContrastChecker />} />
       <Route path="/keyboard-trainer" element={<KeyboardTrainer />} />
       <Route path="/keyboard-trainer/:exerciseId" element={<KeyboardTrainer />} />
+      <Route path="/aac-board" element={<AACBoard />} />
     </Routes>
   );
 };
