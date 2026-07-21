@@ -1,0 +1,32 @@
+[
+  {
+    "id": "eat",
+    "label": "Eat",
+    "iconName": "Utensils",
+    "color": "#f97316"
+  },
+  {
+    "id": "drink",
+    "label": "Drink",
+    "iconName": "GlassWater",
+    "color": "#0284c7"
+  },
+  {
+    "id": "help",
+    "label": "Help",
+    "iconName": "Hand",
+    "color": "#eab308"
+  },
+  {
+    "id": "yes",
+    "label": "Yes",
+    "iconName": "Check",
+    "color": "#16a34a"
+  },
+  {
+    "id": "stop",
+    "label": "Stop",
+    "iconName": "OctagonX",
+    "color": "#dc2626"
+  }
+]
