@@ -8,6 +8,11 @@ import {
   Volume2,
   Trash2,
   RotateCcw,
+  Plus,
+  Heart,
+  X,
+  ArrowRight,
+  ThumbsUp,
 } from 'lucide-react';
 
 import starterTiles from './starterTiles.json';
@@ -20,6 +25,11 @@ const ICON_MAP = {
   Hand,
   Check,
   OctagonX,
+  Plus,
+  Heart,
+  X,
+  ArrowRight,
+  ThumbsUp,
 };
 
 const AACBoard = () => {

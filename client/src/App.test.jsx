@@ -1,8 +1,9 @@
 // @vitest-environment jsdom
 import { describe, it, expect } from 'vitest';
-import { render, screen, within } from '@testing-library/react';
+import { render, screen, within, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import KeyboardTrainer from './tools/keyboard-trainer/KeyboardTrainer';
+import AACBoard from './tools/aac-board/AACBoard';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
 describe('KeyboardTrainer', () => {
@@ -66,5 +67,17 @@ describe('KeyboardTrainer', () => {
     // App remains usable — correct key still works after the mistake
     await user.keyboard(' ');
     expect(screen.getByText(/step 5 of/i)).toBeInTheDocument();
+  });
+});
+
+describe('AACBoard', () => {
+  it('appends selected tile label to the sentence bar', () => {
+    render(<AACBoard />);
+
+    const eatBtn = screen.getByRole('button', { name: /^eat$/i });
+    fireEvent.click(eatBtn);
+
+    const sentenceDisplay = screen.getByRole('status');
+    expect(sentenceDisplay).toHaveTextContent('Eat');
   });
 });
