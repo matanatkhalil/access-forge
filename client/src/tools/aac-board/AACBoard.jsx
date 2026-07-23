@@ -39,7 +39,7 @@ const ICON_MAP = {
 const AACBoard = () => {
   // state for the sentence bar
   const [selectedWords, setSelectedWords] = useState([]);
-  const { speak } = useSpeech();
+  const { speak, stop } = useSpeech();
 
   const handleSelectingTile = (label) => {
     setSelectedWords((prev) => {
@@ -49,6 +49,7 @@ const AACBoard = () => {
   };
 
   const handleClear = () => {
+    stop();
     setSelectedWords([]);
   };
 
