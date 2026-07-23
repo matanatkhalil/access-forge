@@ -4,9 +4,11 @@
   { "id": "help", "label": "Help", "iconName": "Hand", "color": "#eab308" },
   { "id": "more", "label": "More", "iconName": "Plus", "color": "#a855f7" },
   { "id": "want", "label": "Want", "iconName": "Heart", "color": "#ec4899" },
+  { "id": "please", "label": "Please", "iconName": "Smile", "color": "#06b6d4" },
   { "id": "yes", "label": "Yes", "iconName": "Check", "color": "#16a34a" },
   { "id": "no", "label": "No", "iconName": "X", "color": "#dc2626" },
   { "id": "stop", "label": "Stop", "iconName": "OctagonX", "color": "#b91c1c" },
   { "id": "go", "label": "Go", "iconName": "ArrowRight", "color": "#2563eb" },
-  { "id": "thanks", "label": "Thanks", "iconName": "ThumbsUp", "color": "#059669" }
+  { "id": "thanks", "label": "Thanks", "iconName": "HeartHandshake", "color": "#059669" },
+  { "id": "like", "label": "Like", "iconName": "ThumbsUp", "color": "#d97706" }
 ]

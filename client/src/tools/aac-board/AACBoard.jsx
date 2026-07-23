@@ -10,9 +10,11 @@ import {
   RotateCcw,
   Plus,
   Heart,
+  Smile,
   X,
   ArrowRight,
   ThumbsUp,
+  HeartHandshake,
 } from 'lucide-react';
 
 import starterTiles from './starterTiles.json';
@@ -27,8 +29,10 @@ const ICON_MAP = {
   OctagonX,
   Plus,
   Heart,
+  Smile,
   X,
   ArrowRight,
+  HeartHandshake,
   ThumbsUp,
 };
 
