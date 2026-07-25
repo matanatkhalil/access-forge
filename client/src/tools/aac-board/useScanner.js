@@ -82,6 +82,12 @@ export const useScanner = ({ totalItems = 12, scanSpeed = 1500, onSelectTile }) 
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.code === 'Space' || e.key === 'Enter') {
+        // If user is focused on a toolbar or control button, let native keyboard click happen
+        const isFocusedOnControl = e.target.closest('.scanner-toolbar, .sentence-controls');
+        if (isFocusedOnControl) {
+          return; // Exit early and let native button onClick trigger
+        }
+
         e.preventDefault(); // Stop page scrolling
         if (!isScanning) {
           setIsScanning(true);
