@@ -15,10 +15,14 @@ import {
   ArrowRight,
   ThumbsUp,
   HeartHandshake,
+  Play,
+  Pause,
+  Gauge,
 } from 'lucide-react';
 
 import starterTiles from './starterTiles.json';
 import { useSpeech } from './useSpeech';
+import { useScanner } from './useScanner';
 import './AACBoard.css';
 
 const ICON_MAP = {
@@ -41,11 +45,35 @@ const AACBoard = () => {
   const [selectedWords, setSelectedWords] = useState([]);
   const { speak, stop } = useSpeech();
 
+  // Load saved scan speed from localStorage (default: 1500ms = 1.5s)
+  const [scanSpeed, setScanSpeed] = useState(() => {
+    const saved = localStorage.getItem('aac_scan_speed');
+    return saved ? Number(saved) : 1500;
+  });
+
   const handleSelectingTile = (label) => {
     setSelectedWords((prev) => {
       return [...prev, label];
     });
     speak(label);
+  };
+
+  // Connect useScanner hook
+  const { isScanning, setIsScanning, mode, columns, activeRowIndex, activeTileIndex } = useScanner({
+    totalItems: starterTiles.length,
+    scanSpeed,
+    onSelectTile: (selectedIndex) => {
+      const tile = starterTiles[selectedIndex];
+      if (tile) {
+        handleSelectingTile(tile.label);
+      }
+    },
+  });
+
+  const handleSpeedChange = (e) => {
+    const newSpeed = Number(e.target.value);
+    setScanSpeed(newSpeed);
+    localStorage.setItem('aac_scan_speed', newSpeed.toString());
   };
 
   const handleClear = () => {
@@ -91,17 +119,54 @@ const AACBoard = () => {
         </div>
       </header>
 
+      {/* Switch Access & Scanning Toolbar */}
+      <div className="scanner-toolbar">
+        <button
+          type="button"
+          className={`scan-toggle-btn ${isScanning ? 'active' : ''}`}
+          onClick={() => setIsScanning((prev) => !prev)}
+        >
+          {isScanning ? (
+            <Pause size={18} aria-hidden="true" />
+          ) : (
+            <Play size={18} aria-hidden="true" />
+          )}
+          <span>{isScanning ? 'Pause Auto-Scan' : 'Start Auto-Scan'}</span>
+        </button>
+
+        <div className="speed-selector">
+          <Gauge size={18} aria-hidden="true" />
+          <label htmlFor="scan-speed-select">Speed:</label>
+          <select id="scan-speed-select" value={scanSpeed} onChange={handleSpeedChange}>
+            <option value={3000}>3.0s (Slow)</option>
+            <option value={2000}>2.0s (Medium)</option>
+            <option value={1500}>1.5s (Default)</option>
+            <option value={1000}>1.0s (Fast)</option>
+          </select>
+        </div>
+      </div>
+
       {/* Tile Grid */}
       <main className="tiles-grid" aria-label="Communication Tiles">
-        {starterTiles.map((tile) => {
+        {starterTiles.map((tile, index) => {
           // Look up icon dynamically based on iconName string
           const IconComponent = ICON_MAP[tile.iconName];
+
+          // Calculate grid coordinates for scanning indicators
+          const tileRow = Math.floor(index / columns);
+          const tileCol = index % columns;
+
+          const isRowActive = isScanning && tileRow === activeRowIndex;
+          const isTileActive =
+            isScanning && mode === 'TILE' && isRowActive && tileCol === activeTileIndex;
 
           return (
             <button
               key={tile.id}
               type="button"
-              className="tile-button"
+              className={`tile-button ${isRowActive ? 'is-row-active' : ''} ${
+                isTileActive ? 'is-tile-active' : ''
+              }`}
               onClick={() => handleSelectingTile(tile.label)}
             >
               {IconComponent && (

@@ -19,7 +19,8 @@ export const useSpeech = () => {
   const speak = useCallback((text) => {
     if ('speechSynthesis' in window && text?.trim()) {
       window.speechSynthesis.cancel(); // Interrupt previous speech
-      const utterance = new SpeechSynthesisUtterance(text);
+      // Using toLowercase() here prevents 'No' being pronounced as 'Number'
+      const utterance = new SpeechSynthesisUtterance(text.toLowerCase());
 
       // Explicitly set language
       utterance.lang = 'en-US';
