@@ -126,7 +126,11 @@ const AACBoard = () => {
           className={`scan-toggle-btn ${isScanning ? 'active' : ''}`}
           onClick={() => setIsScanning((prev) => !prev)}
         >
-          {isScanning ? <Pause size={18} /> : <Play size={18} />}
+          {isScanning ? (
+            <Pause size={18} aria-hidden="true" />
+          ) : (
+            <Play size={18} aria-hidden="true" />
+          )}
           <span>{isScanning ? 'Pause Auto-Scan' : 'Start Auto-Scan'}</span>
         </button>
 
