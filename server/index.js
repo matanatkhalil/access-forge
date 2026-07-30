@@ -12,6 +12,7 @@ const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 import pool from './db/db.js';
+import boardsRouter from './routes/boards.js'; // Import AAC boards router
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -27,6 +28,9 @@ app.get('/health', (_req, res) => {
     environment: process.env.NODE_ENV,
   });
 });
+
+// AAC Board Routes
+app.use('/api/aac', boardsRouter);
 
 app.listen(PORT, async () => {
   console.log(`Server running on http://localhost:${PORT}`);

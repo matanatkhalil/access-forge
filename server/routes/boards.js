@@ -1,9 +1,9 @@
 import express from 'express';
-import pool from './db/db.js';
+import pool from '../db/db.js';
 
 const router = express.Router();
 
-// GET api/aac-boards (fetch boards with their tiles)
+// GET /api/aac/boards (fetch boards with their tiles)
 router.get('/boards', async (req, res) => {
   try {
     const userId = req.user?.id || null;
