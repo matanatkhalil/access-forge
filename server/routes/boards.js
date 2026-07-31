@@ -93,7 +93,10 @@ router.post('/boards', authenticateToken, async (req, res) => {
   } catch (error) {
     await client.query('ROLLBACK'); // Roll back changes if error occurs
     console.error('Error creating board:', error);
-    res.status(400).json({ message: error.message || 'Failed to create board' });
+
+    const isValidationError = error.message.includes('must have a label');
+    const clientMessage = isValidationError ? error.message : 'Failed to create board';
+    res.status(400).json({ message: clientMessage });
   } finally {
     client.release();
   }
@@ -156,7 +159,12 @@ router.put('/boards/:id', authenticateToken, async (req, res) => {
     res.json({ message: 'Board updated successfully', boardId: board.id });
   } catch (error) {
     await client.query('ROLLBACK');
-    res.status(400).json({ message: error.message || 'Failed to update board' });
+    console.error('Error updating board:', error);
+
+    const isValidationError = error.message.includes('must have a label');
+    const clientMessage = isValidationError ? error.message : 'Failed to update board';
+
+    res.status(400).json({ message: clientMessage });
   } finally {
     client.release();
   }
