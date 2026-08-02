@@ -18,6 +18,13 @@ import {
   Play,
   Pause,
   Gauge,
+  Copy,
+  Pencil,
+  LayoutGrid,
+  ChevronDown,
+  User,
+  LogIn,
+  LogOut,
 } from 'lucide-react';
 
 import starterTiles from './starterTiles.json';
@@ -44,6 +51,11 @@ const AACBoard = () => {
   // state for the sentence bar
   const [selectedWords, setSelectedWords] = useState([]);
   const { speak, stop } = useSpeech();
+  const [user, setUser] = useState('');
+  const [board, setBoard] = useState('');
+  const [isBuilderMode, setIsBuilderMode] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isOpen, setIsOpen] = useState(false); // for opening the menu to choose a board
 
   // Load saved scan speed from localStorage (default: 1500ms = 1.5s)
   const [scanSpeed, setScanSpeed] = useState(() => {
@@ -89,10 +101,58 @@ const AACBoard = () => {
     speak(selectedWords.join(' '));
   };
 
+  const openAuthModal = () => {
+    // some code
+  };
+
+  const handleCopyBoard = () => {
+    // code
+  };
+
+  const handleSaveBoard = () => {
+    // code
+  };
+
+  const handleCancelEdit = () => {
+    // code
+  };
+
+  const handleDeleteBoard = () => {
+    // code
+  };
+
   return (
     <section className="aac-board" aria-label="AAC Communication Board">
+      <header className="header-section">
+        <button type="button" className="board-options">
+          <LayoutGrid size={18} aria-hidden="true" />
+          <span>Starter Board</span>
+          <ChevronDown
+            size={16}
+            className={`transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+            aria-hidden="true"
+          />
+        </button>
+
+        <button type="button" className="board-creation">
+          <Plus size={18} aria-hidden="true" />
+          <span>New Board</span>
+        </button>
+        {isLoggedIn ? (
+          <button type="button" className="user-profile-btn">
+            <User size={18} aria-hidden="true" />
+            <span>{user?.name || 'Account'}</span>
+          </button>
+        ) : (
+          <button type="button" className="login-btn" onClick={openAuthModal}>
+            <LogIn size={18} aria-hidden="true" />
+            <span>Log In</span>
+          </button>
+        )}
+      </header>
+
       {/* Sentence Bar */}
-      <header className="sentence-bar-container">
+      <div className="sentence-bar-container">
         <div className="sentence-display" role="status" aria-live="polite">
           {selectedWords.length > 0 ? (
             selectedWords.join(' ')
@@ -117,7 +177,7 @@ const AACBoard = () => {
             <span>Clear</span>
           </button>
         </div>
-      </header>
+      </div>
 
       {/* Switch Access & Scanning Toolbar */}
       <div className="scanner-toolbar">
@@ -144,6 +204,36 @@ const AACBoard = () => {
             <option value={1000}>1.0s (Fast)</option>
           </select>
         </div>
+
+        {board.isDefault ? (
+          <button type="button" className="copy-btn" onClick={handleCopyBoard}>
+            <Copy size={18} aria-hidden="true" />
+            <span>Make a Copy to Edit</span>
+          </button>
+        ) : isBuilderMode ? (
+          <div className="builder-active-actions">
+            <button type="button" className="save-btn" onClick={handleSaveBoard}>
+              <Check size={18} aria-hidden="true" />
+              <span>Save Changes</span>
+            </button>
+
+            <button type="button" className="cancel-btn" onClick={handleCancelEdit}>
+              <X size={18} aria-hidden="true" />
+              <span>Cancel</span>
+            </button>
+          </div>
+        ) : (
+          <div className="board-action-btns">
+            <button type="button" className="edit-btn" onClick={() => setIsBuilderMode(true)}>
+              <Pencil size={18} aria-hidden="true" />
+              <span>Edit Board</span>
+            </button>
+            <button type="button" className="delete-board-btn" onClick={handleDeleteBoard}>
+              <Trash2 size={18} aria-hidden="true" />
+              <span>Delete Board</span>
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Tile Grid */}
