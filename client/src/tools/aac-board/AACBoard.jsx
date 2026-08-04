@@ -31,6 +31,7 @@ import starterTiles from './starterTiles.json';
 import { useSpeech } from './useSpeech';
 import { useScanner } from './useScanner';
 import './AACBoard.css';
+import AuthModal from '../../components/AuthModal';
 
 const ICON_MAP = {
   Utensils,
@@ -57,7 +58,7 @@ const AACBoard = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isOpen, setIsOpen] = useState(false); // for opening the menu to choose a board
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const [authMode, setaAuthMode] = useState('login'); // this can be login or signup
+  const [authMode, setAuthMode] = useState('login'); // this can be login or signup
   const [authError, setAuthError] = useState(null); // clear past errors
 
   // Load saved scan speed from localStorage (default: 1500ms = 1.5s)
@@ -106,7 +107,7 @@ const AACBoard = () => {
 
   const openAuthModal = (mode = 'login') => {
     setAuthError(null); // clean any past errors
-    setaAuthMode('login'); // Always default to login view when opened from header
+    setAuthMode(mode); // Always default to login view when opened from header
     setIsAuthModalOpen(true);
 
     // prevent scrolling on the background while the modal is open
@@ -114,8 +115,8 @@ const AACBoard = () => {
   };
 
   const closeAuthModal = () => {
+    setIsAuthModalOpen(false);
     document.body.style.overflow = 'unset';
-    // rest of code
   };
 
   const handleCopyBoard = () => {
@@ -285,6 +286,15 @@ const AACBoard = () => {
           );
         })}
       </main>
+
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={closeAuthModal}
+        onLoginSuccess={(userData) => {
+          setUser(userData);
+          setIsLoggedIn(true);
+        }}
+      />
     </section>
   );
 };
