@@ -1,17 +1,207 @@
 .auth-modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  padding: 1rem;
+  background-color: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(4px);
+  animation: authFadeIn 0.2s ease-out;
 }
 
 .auth-modal-content {
-  background: white;
-  border-radius: 8px;
-  padding: 24px;
+  position: relative;
+  width: 100%;
   max-width: 400px;
-  width: 90%;
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 2.25rem 1.75rem;
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 8px 10px -6px rgba(0, 0, 0, 0.05);
+  animation: authSlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  color: #64748b;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.modal-close-btn:hover {
+  background-color: #f1f5f9;
+  color: #0f172a;
+}
+
+.modal-close-btn:focus-visible {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+}
+
+.auth-modal-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.input-name {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.auth-modal-content label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #334155;
+  margin-bottom: -0.375rem;
+}
+
+.input-name label {
+  margin-bottom: 0;
+}
+
+.auth-modal-content input {
+  width: 100%;
+  padding: 0.75rem 0.875rem;
+  font-size: 1rem;
+  color: #0f172a;
+  background-color: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  box-sizing: border-box;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.auth-modal-content input::placeholder {
+  color: #94a3b8;
+}
+
+.auth-modal-content input:hover {
+  background-color: #ffffff;
+  border-color: #94a3b8;
+}
+
+.auth-modal-content input:focus {
+  outline: none;
+  background-color: #ffffff;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.18);
+}
+
+.error-message {
+  padding: 0.625rem 0.875rem;
+  font-size: 0.875rem;
+  color: #dc2626;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  margin: 0;
+  animation: authFadeIn 0.15s ease-out;
+}
+
+.auth-modal-content button[type='submit'] {
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0.875rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #6366f1;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    transform 0.1s ease,
+    box-shadow 0.15s ease;
+}
+
+.auth-modal-content button[type='submit']:hover:not(:disabled) {
+  background-color: #4f46e5;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+}
+
+.auth-modal-content button[type='submit']:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.auth-modal-content button[type='submit']:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.auth-modal-content button[type='button']:not(.modal-close-btn) {
+  background: none;
+  border: none;
+  padding: 0.25rem 0;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #64748b;
+  cursor: pointer;
+  text-align: center;
+  transition: color 0.15s ease;
+}
+
+.auth-modal-content button[type='button']:not(.modal-close-btn):hover {
+  color: #4f46e5;
+  text-decoration: underline;
+}
+
+@keyframes authFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes authSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-modal-overlay {
+    padding: 0.75rem;
+  }
+
+  .auth-modal-content {
+    padding: 1.75rem 1.25rem;
+    border-radius: 14px;
+  }
+}
+
+.modal-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 auto;
 }

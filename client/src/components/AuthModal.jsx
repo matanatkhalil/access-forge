@@ -75,6 +75,7 @@ const AuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
           <X size={20} aria-hidden="true" />
         </button>
         <form onSubmit={isLoginMode ? handleLogin : handleSignup}>
+          <h2 className="modal-title">{isLoginMode ? 'Welcome Back' : 'Create an Account'}</h2>
           {!isLoginMode && (
             <div className="input-name">
               <label htmlFor="fullName">Full Name</label>
