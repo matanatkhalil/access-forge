@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { X } from 'lucide-react';
 import './AuthModal.css';
 
@@ -9,6 +9,66 @@ const AuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const modalRef = useRef(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const modalElement = modalRef.current;
+    if (!modalElement) return;
+
+    const getFocusableElements = () =>
+      modalElement.querySelectorAll(
+        'button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      );
+
+    const firstInput = modalElement.querySelector('input');
+    if (firstInput) {
+      firstInput.focus();
+    } else {
+      const focusable = getFocusableElements();
+      if (focusable[0]) focusable[0].focus();
+    }
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        onClose();
+        return;
+      }
+
+      if (e.key === 'Tab') {
+        const currentFocusables = getFocusableElements();
+        const firstElement = currentFocusables[0];
+        const lastElement = currentFocusables[currentFocusables.length - 1];
+
+        if (e.shiftKey) {
+          if (document.activeElement === firstElement) {
+            e.preventDefault();
+            lastElement.focus();
+          }
+        } else {
+          // Tab: moving forwards
+          if (document.activeElement === lastElement) {
+            e.preventDefault();
+            firstElement.focus();
+          }
+        }
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen, isLoginMode, onClose]);
+
+  useEffect(() => {
+    if (isOpen) {
+      setError('');
+    }
+  }, [isOpen]);
+
   const handleLogin = async (e) => {
     e.preventDefault(); // so the browser doesn't reload the page
     setError('');
@@ -69,8 +129,14 @@ const AuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="auth-modal-overlay" onClick={onClose}>
-      <div className="auth-modal-content" onClick={(e) => e.stopPropagation()}>
+    <div
+      className="auth-modal-overlay"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
+    >
+      <div className="auth-modal-content" onClick={(e) => e.stopPropagation()} ref={modalRef}>
         <button type="button" className="modal-close-btn" onClick={onClose} aria-label="Close">
           <X size={20} aria-hidden="true" />
         </button>
@@ -111,11 +177,12 @@ const AuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
 
           {error && <p className="error-message">{error}</p>}
 
-          <button type="submit" disabled={loading}>
+          <button type="submit" disabled={loading} className="submit-btn">
             {loading ? 'Please wait...' : isLoginMode ? 'Log In' : 'Sign Up'}
           </button>
           <button
             type="button"
+            className="mode-change-btn"
             onClick={() => {
               setIsLoginMode(!isLoginMode);
               setError('');
