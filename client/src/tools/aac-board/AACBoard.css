@@ -249,3 +249,139 @@
   z-index: 10;
   box-shadow: 0 10px 20px -3px rgba(0, 0, 0, 0.25);
 }
+
+.scan-controls-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.header-section {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.board-options,
+.board-creation,
+.user-profile-btn,
+.login-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+}
+
+.board-options,
+.board-creation,
+.user-profile-btn {
+  color: #334155;
+  background-color: #ffffff;
+  border: 2px solid #cbd5e1;
+}
+
+.board-options:hover,
+.board-creation:hover,
+.user-profile-btn:hover {
+  background-color: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+.login-btn {
+  color: #ffffff;
+  background-color: #2563eb;
+  border: 2px solid #1d4ed8;
+  margin-left: auto;
+}
+
+.login-btn:hover {
+  background-color: #1d4ed8;
+}
+
+.board-options:focus-visible,
+.board-creation:focus-visible,
+.user-profile-btn:focus-visible,
+.login-btn:focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 2px;
+}
+
+.builder-active-actions,
+.board-action-btns {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.copy-btn,
+.save-btn,
+.cancel-btn,
+.edit-btn,
+.delete-board-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #ffffff;
+  transition: all 0.15s ease-in-out;
+}
+
+.copy-btn,
+.edit-btn,
+.cancel-btn {
+  color: #334155;
+  border: 2px solid #cbd5e1;
+}
+
+.copy-btn:hover,
+.edit-btn:hover,
+.cancel-btn:hover {
+  background-color: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+.save-btn {
+  color: #11833b;
+  border: 2px solid #108f3f;
+}
+
+.save-btn:hover {
+  background-color: #dcfce7;
+}
+
+.delete-board-btn {
+  color: #dc2626;
+  border: 2px solid #dc2626;
+}
+
+.delete-board-btn:hover {
+  background-color: #fee2e2;
+}
+
+.copy-btn:focus-visible,
+.cancel-btn:focus-visible,
+.edit-btn:focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 2px;
+}
+
+.save-btn:focus-visible {
+  outline: 3px solid #16a34a;
+  outline-offset: 2px;
+}
+
+.delete-board-btn:focus-visible {
+  outline: 3px solid #dc2626;
+  outline-offset: 2px;
+}

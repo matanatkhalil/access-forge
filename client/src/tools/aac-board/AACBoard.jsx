@@ -195,28 +195,30 @@ const AACBoard = () => {
 
       {/* Switch Access & Scanning Toolbar */}
       <div className="scanner-toolbar">
-        <button
-          type="button"
-          className={`scan-toggle-btn ${isScanning ? 'active' : ''}`}
-          onClick={() => setIsScanning((prev) => !prev)}
-        >
-          {isScanning ? (
-            <Pause size={18} aria-hidden="true" />
-          ) : (
-            <Play size={18} aria-hidden="true" />
-          )}
-          <span>{isScanning ? 'Pause Auto-Scan' : 'Start Auto-Scan'}</span>
-        </button>
+        <div className="scan-controls-group">
+          <button
+            type="button"
+            className={`scan-toggle-btn ${isScanning ? 'active' : ''}`}
+            onClick={() => setIsScanning((prev) => !prev)}
+          >
+            {isScanning ? (
+              <Pause size={18} aria-hidden="true" />
+            ) : (
+              <Play size={18} aria-hidden="true" />
+            )}
+            <span>{isScanning ? 'Pause Auto-Scan' : 'Start Auto-Scan'}</span>
+          </button>
 
-        <div className="speed-selector">
-          <Gauge size={18} aria-hidden="true" />
-          <label htmlFor="scan-speed-select">Speed:</label>
-          <select id="scan-speed-select" value={scanSpeed} onChange={handleSpeedChange}>
-            <option value={3000}>3.0s (Slow)</option>
-            <option value={2000}>2.0s (Medium)</option>
-            <option value={1500}>1.5s (Default)</option>
-            <option value={1000}>1.0s (Fast)</option>
-          </select>
+          <div className="speed-selector">
+            <Gauge size={18} aria-hidden="true" />
+            <label htmlFor="scan-speed-select">Speed:</label>
+            <select id="scan-speed-select" value={scanSpeed} onChange={handleSpeedChange}>
+              <option value={3000}>3.0s (Slow)</option>
+              <option value={2000}>2.0s (Medium)</option>
+              <option value={1500}>1.5s (Default)</option>
+              <option value={1000}>1.0s (Fast)</option>
+            </select>
+          </div>
         </div>
 
         {board.isDefault ? (
