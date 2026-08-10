@@ -32,6 +32,7 @@ import { useSpeech } from './useSpeech';
 import { useScanner } from './useScanner';
 import './AACBoard.css';
 import AuthModal from '../../components/AuthModal';
+import BoardBuilder from './BoardBuilder';
 
 const ICON_MAP = {
   Utensils,
@@ -60,6 +61,8 @@ const AACBoard = () => {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authMode, setAuthMode] = useState('login'); // this can be login or signup
   const [authError, setAuthError] = useState(null); // clear past errors
+  const [isCreatingBoard, setIsCreatingBoard] = useState(false);
+  const [boardError, setBoardError] = useState(null);
 
   // Load saved scan speed from localStorage (default: 1500ms = 1.5s)
   const [scanSpeed, setScanSpeed] = useState(() => {
@@ -135,6 +138,32 @@ const AACBoard = () => {
     // code
   };
 
+  const handleCreateBoard = async (title, tiles) => {
+    setBoardError(null);
+
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('api/aac/boards', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ title, tiles }),
+      });
+
+      if (!response.ok) {
+        const errData = await response.json();
+        throw new Error(errData.message || 'Failed to create board');
+      }
+
+      const data = await response.json();
+      setIsCreatingBoard(false);
+    } catch (err) {
+      setBoardError(err.message);
+    }
+  };
+
   return (
     <section className="aac-board" aria-label="AAC Communication Board">
       <header className="header-section">
@@ -148,7 +177,7 @@ const AACBoard = () => {
           />
         </button>
 
-        <button type="button" className="board-creation">
+        <button type="button" className="board-creation" onClick={() => setIsCreatingBoard(true)}>
           <Plus size={18} aria-hidden="true" />
           <span>New Board</span>
         </button>
@@ -253,42 +282,51 @@ const AACBoard = () => {
       </div>
 
       {/* Tile Grid */}
-      <main className="tiles-grid" aria-label="Communication Tiles">
-        {starterTiles.map((tile, index) => {
-          // Look up icon dynamically based on iconName string
-          const IconComponent = ICON_MAP[tile.iconName];
+      {isCreatingBoard ? (
+        <BoardBuilder
+          onCancel={() => setIsCreatingBoard(false)}
+          onSave={(title, tiles) => {
+            handleCreateBoard(title, tiles); // existing POST endpoint
+            setIsCreatingBoard(false);
+          }}
+        />
+      ) : (
+        <main className="tiles-grid" aria-label="Communication Tiles">
+          {starterTiles.map((tile, index) => {
+            // Look up icon dynamically based on iconName string
+            const IconComponent = ICON_MAP[tile.iconName];
 
-          // Calculate grid coordinates for scanning indicators
-          const tileRow = Math.floor(index / columns);
-          const tileCol = index % columns;
+            // Calculate grid coordinates for scanning indicators
+            const tileRow = Math.floor(index / columns);
+            const tileCol = index % columns;
 
-          const isRowActive = isScanning && tileRow === activeRowIndex;
-          const isTileActive =
-            isScanning && mode === 'TILE' && isRowActive && tileCol === activeTileIndex;
+            const isRowActive = isScanning && tileRow === activeRowIndex;
+            const isTileActive =
+              isScanning && mode === 'TILE' && isRowActive && tileCol === activeTileIndex;
 
-          return (
-            <button
-              key={tile.id}
-              type="button"
-              className={`tile-button ${isRowActive ? 'is-row-active' : ''} ${
-                isTileActive ? 'is-tile-active' : ''
-              }`}
-              onClick={() => handleSelectingTile(tile.label)}
-            >
-              {IconComponent && (
-                <IconComponent
-                  className="tile-icon"
-                  aria-hidden="true"
-                  size={36}
-                  color={tile.color}
-                />
-              )}
-              <span className="tile-label">{tile.label}</span>
-            </button>
-          );
-        })}
-      </main>
-
+            return (
+              <button
+                key={tile.id}
+                type="button"
+                className={`tile-button ${isRowActive ? 'is-row-active' : ''} ${
+                  isTileActive ? 'is-tile-active' : ''
+                }`}
+                onClick={() => handleSelectingTile(tile.label)}
+              >
+                {IconComponent && (
+                  <IconComponent
+                    className="tile-icon"
+                    aria-hidden="true"
+                    size={36}
+                    color={tile.color}
+                  />
+                )}
+                <span className="tile-label">{tile.label}</span>
+              </button>
+            );
+          })}
+        </main>
+      )}
       <AuthModal
         isOpen={isAuthModalOpen}
         onClose={closeAuthModal}
