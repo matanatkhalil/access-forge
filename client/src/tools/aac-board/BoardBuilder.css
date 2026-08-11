@@ -1,0 +1,29 @@
+.tile-button-wrapper {
+  position: relative;
+}
+
+.tile-delete-btn {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background-color: #fee2e2;
+  color: #dc2626;
+  cursor: pointer;
+}
+
+.tile-delete-btn:hover {
+  background-color: #fecaca;
+}
+
+.tile-delete-btn:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}

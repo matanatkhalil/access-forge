@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import TileEditor from './TileEditor';
-import { Plus } from 'lucide-react';
+import { Plus, Trash2 } from 'lucide-react';
+import './BoardBuilder.css';
 
 const BoardBuilder = ({ onCancel, onSave }) => {
   const [title, setTitle] = useState('');
@@ -49,14 +50,19 @@ const BoardBuilder = ({ onCancel, onSave }) => {
               }}
             />
           ) : (
-            <button
-              key={index}
-              type="button"
-              className="tile-button"
-              onClick={() => setEditingIndex(index)}
-            >
-              <span>{tile.label || 'Untitled'}</span>
-            </button>
+            <div key={index} className="tile-button-wrapper">
+              <button type="button" className="tile-button" onClick={() => setEditingIndex(index)}>
+                <span>{tile.label || 'Untitled'}</span>
+              </button>
+              <button
+                type="button"
+                className="tile-delete-btn"
+                onClick={() => removeTile(index)}
+                aria-label={`Delete ${tile.label || 'tile'}`}
+              >
+                <Trash2 size={14} aria-hidden="true" />
+              </button>
+            </div>
           )
         )}
         <button type="button" className="tile-button add-tile-btn" onClick={addBlankTile}>
