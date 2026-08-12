@@ -72,7 +72,7 @@ const BoardBuilder = ({ onCancel, onSave }) => {
       </div>
       <div className="builder-actions">
         <button type="button" className="save-btn" onClick={() => onSave(title, draftTiles)}>
-          Save
+          Save Board
         </button>
         <button type="button" className="cancel-btn" onClick={onCancel}>
           Cancel

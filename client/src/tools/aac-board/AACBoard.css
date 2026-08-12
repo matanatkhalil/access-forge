@@ -83,13 +83,6 @@
   border-color: #cbd5e1;
 }
 
-.tiles-grid {
-  display: grid;
-  /* Default Mobile: 2 columns (2 x 6 grid) */
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.25rem;
-}
-
 .tile-button {
   display: flex;
   flex-direction: column;
@@ -135,18 +128,26 @@
   text-align: center;
 }
 
-/* Tablet: 3 columns (3 x 4 grid) */
+.tiles-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+}
+
 @media (min-width: 500px) {
   .tiles-grid {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
-/* Desktop: 6 columns (6 x 2 grid) */
 @media (min-width: 1024px) {
   .tiles-grid {
     grid-template-columns: repeat(6, 1fr);
   }
+}
+
+.tiles-grid > * {
+  min-width: 0;
 }
 
 .scanner-toolbar {

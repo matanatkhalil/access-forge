@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Check, X, Trash2 } from 'lucide-react';
+import './TileEditor.css';
 
 const TileEditor = ({ tile, onSave, onCancel, onDelete }) => {
   const [label, setLabel] = useState(tile.label);
-  const [iconName, setIconName] = useState(tile.setIconName);
+  const [iconName, setIconName] = useState(tile.iconName);
   const [color, setColor] = useState(tile.color);
 
   const handleSave = () => {

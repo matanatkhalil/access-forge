@@ -1,0 +1,52 @@
+.tile-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border: 3px solid #1e293b;
+  border-radius: 16px;
+  background-color: #ffffff;
+  box-sizing: border-box;
+}
+
+.tile-editor input {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.95rem;
+  border: 2px solid #cbd5e1;
+  border-radius: 6px;
+}
+
+.tile-editor input:focus-visible {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18);
+}
+
+.tile-editor-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: auto;
+}
+
+.tile-editor-actions button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 6px;
+  border: 2px solid #cbd5e1;
+  background-color: #ffffff;
+  cursor: pointer;
+}
+
+.tile-editor-actions button:hover {
+  background-color: #f1f5f9;
+}
+
+.tile-editor-actions button:focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 2px;
+}
