@@ -117,6 +117,14 @@ const AACBoard = () => {
     document.body.style.overflow = 'hidden';
   };
 
+  const handleNewBoardClick = () => {
+    if (isLoggedIn) {
+      setIsCreatingBoard(true);
+    } else {
+      openAuthModal('login');
+    }
+  };
+
   const closeAuthModal = () => {
     setIsAuthModalOpen(false);
     document.body.style.overflow = 'unset';
@@ -177,7 +185,7 @@ const AACBoard = () => {
           />
         </button>
 
-        <button type="button" className="board-creation" onClick={() => setIsCreatingBoard(true)}>
+        <button type="button" className="board-creation" onClick={handleNewBoardClick}>
           <Plus size={18} aria-hidden="true" />
           <span>New Board</span>
         </button>
