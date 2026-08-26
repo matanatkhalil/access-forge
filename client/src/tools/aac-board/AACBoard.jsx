@@ -63,6 +63,7 @@ const AACBoard = () => {
   const [authError, setAuthError] = useState(null); // clear past errors
   const [isCreatingBoard, setIsCreatingBoard] = useState(false);
   const [boardError, setBoardError] = useState(null);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
 
   // Load saved scan speed from localStorage (default: 1500ms = 1.5s)
   const [scanSpeed, setScanSpeed] = useState(() => {
@@ -172,6 +173,15 @@ const AACBoard = () => {
     }
   };
 
+  const handleProfileBtn = () => {
+    setIsProfileMenuOpen((prev) => !prev);
+  };
+
+  const handleLogOut = () => {
+    localStorage.removeItem('token');
+    setIsProfileMenuOpen(false);
+  };
+
   return (
     <section className="aac-board" aria-label="AAC Communication Board">
       <header className="header-section">
@@ -189,17 +199,48 @@ const AACBoard = () => {
           <Plus size={18} aria-hidden="true" />
           <span>New Board</span>
         </button>
-        {isLoggedIn ? (
-          <button type="button" className="user-profile-btn">
-            <User size={18} aria-hidden="true" />
-            <span>{user?.name || 'Account'}</span>
-          </button>
-        ) : (
-          <button type="button" className="login-btn" onClick={() => openAuthModal('login')}>
-            <LogIn size={18} aria-hidden="true" />
-            <span>Log In</span>
-          </button>
-        )}
+        <div className="nav-auth-container">
+          {isLoggedIn ? (
+            <>
+              <button
+                type="button"
+                className="user-profile-btn"
+                onClick={handleProfileBtn}
+                aria-expanded={isProfileMenuOpen}
+                aria-haspopup="true"
+              >
+                <User size={18} aria-hidden="true" />
+                <span>{user?.name || 'Account'}</span>
+              </button>
+
+              {isProfileMenuOpen && (
+                <div className="profile-dropdown" role="menu">
+                  <div className="profile-header">
+                    <p className="profile-user-name">{user?.name || 'User'}</p>
+                    <p className="profile-user-email">{user?.email || 'email@example.com'}</p>
+                  </div>
+
+                  <div className="dropdown-divider" />
+
+                  <button
+                    type="button"
+                    className="logout-btn"
+                    onClick={handleLogOut}
+                    role="menuitem"
+                  >
+                    <LogOut size={16} aria-hidden="true" />
+                    <span>Log Out</span>
+                  </button>
+                </div>
+              )}
+            </>
+          ) : (
+            <button type="button" className="login-btn" onClick={() => openAuthModal('login')}>
+              <LogIn size={18} aria-hidden="true" />
+              <span>Log In</span>
+            </button>
+          )}
+        </div>
       </header>
 
       {/* Sentence Bar */}
