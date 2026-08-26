@@ -115,6 +115,7 @@
   color: #dc2626;
   margin: 0 auto;
   animation: authFadeIn 0.15s ease-out;
+  text-align: center;
 }
 
 .submit-btn {

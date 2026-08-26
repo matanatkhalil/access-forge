@@ -13,6 +13,7 @@ dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 import pool from './db/db.js';
 import boardsRouter from './routes/boards.js'; // Import AAC boards router
+import authRouter from './routes/auth.js';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -31,6 +32,7 @@ app.get('/health', (_req, res) => {
 
 // AAC Board Routes
 app.use('/api/aac', boardsRouter);
+app.use('/api', authRouter);
 
 app.listen(PORT, async () => {
   console.log(`Server running on http://localhost:${PORT}`);

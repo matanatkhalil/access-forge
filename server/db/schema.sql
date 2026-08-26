@@ -1,10 +1,23 @@
+-- Create users table
+CREATE TABLE IF NOT EXISTS users (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Create boards table
 CREATE TABLE IF NOT EXISTS boards (
     id SERIAL PRIMARY KEY,
     user_id INT DEFAULT NULL,
     title VARCHAR(100) NOT NULL DEFAULT 'Default Board',
     is_default  BOOLEAN DEFAULT FALSE, 
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT foreign_key_user
+        FOREIGN KEY (user_id)
+        REFERENCES users(id)
+        ON DELETE CASCADE
 );
 
 -- Create tiles board
@@ -19,10 +32,10 @@ CREATE TABLE IF NOT EXISTS tiles (
         FOREIGN KEY (board_id)
         REFERENCES boards(id)
         ON DELETE CASCADE
-)
+);
 
 
-INSERT INTO boards (title, is_default) VALUES ('Default Board', TRUE)
+INSERT INTO boards (title, is_default) VALUES ('Default Board', TRUE);
 
 INSERT INTO tiles (board_id, label, icon_name, color, position_index) VALUES
 (1, 'Eat', 'Utensils', '#f97316', 0),

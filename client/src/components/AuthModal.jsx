@@ -81,14 +81,14 @@ const AuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
         body: JSON.stringify({ email, password }),
       });
 
+      const data = await response.json().catch(() => ({}));
+
       if (response.ok) {
-        const data = await response.json();
         localStorage.setItem('token', data.token);
         onLoginSuccess(data.user);
         onClose();
       } else {
-        const errorData = await response.json();
-        setError(errorData.message || 'Invalid email or password');
+        setError(data.message || 'Invalid email or password');
       }
     } catch (error) {
       console.error('Error logging in:', error);
@@ -109,14 +109,15 @@ const AuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password }),
       });
+
+      const data = await response.json().catch(() => ({}));
+
       if (response.ok) {
-        const data = await response.json();
         localStorage.setItem('token', data.token);
         onLoginSuccess(data.user);
         onClose();
       } else {
-        const errorData = await response.json();
-        setError(errorData.message || 'Registration failed. Please try again.');
+        setError(data.message || 'Registration failed. Please try again.');
       }
     } catch (error) {
       console.error('Error registering:', error);
