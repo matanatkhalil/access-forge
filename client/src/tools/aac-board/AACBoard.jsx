@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Utensils,
   GlassWater,
@@ -54,7 +54,8 @@ const AACBoard = () => {
   const [selectedWords, setSelectedWords] = useState([]);
   const { speak, stop } = useSpeech();
   const [user, setUser] = useState('');
-  const [board, setBoard] = useState('');
+  const [boards, setBoards] = useState([]);
+  const [activeBoard, setActiveBoard] = useState(null);
   const [isBuilderMode, setIsBuilderMode] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isOpen, setIsOpen] = useState(false); // for opening the menu to choose a board
@@ -64,6 +65,30 @@ const AACBoard = () => {
   const [isCreatingBoard, setIsCreatingBoard] = useState(false);
   const [boardError, setBoardError] = useState(null);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+
+  useEffect(
+    () => {
+      const fetchBoards = async () => {
+        try {
+          const token = localStorage.getItem('token');
+          const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+          const response = await fetch('/api/aac/boards', { headers });
+          if (!response.ok) throw new Error('Failed to fetch boards');
+
+          const data = await response.json();
+          setBoards(data);
+
+          const defaultBoard = data.find((b) => b.isDefault) || data[0];
+          setActiveBoard(defaultBoard);
+        } catch (err) {
+          console.error('Error fetching boards:', err);
+        }
+      };
+      fetchBoards();
+    },
+    { isLoggedIn }
+  );
 
   // Load saved scan speed from localStorage (default: 1500ms = 1.5s)
   const [scanSpeed, setScanSpeed] = useState(() => {
@@ -180,20 +205,39 @@ const AACBoard = () => {
   const handleLogOut = () => {
     localStorage.removeItem('token');
     setIsProfileMenuOpen(false);
+    setUser(null);
+    setIsLoggedIn(false);
   };
 
   return (
     <section className="aac-board" aria-label="AAC Communication Board">
       <header className="header-section">
-        <button type="button" className="board-options">
+        <button type="button" className="board-options" onClick={() => setIsOpen((prev) => !prev)}>
           <LayoutGrid size={18} aria-hidden="true" />
-          <span>Starter Board</span>
+          <span>{activeBoard?.title || 'Select Board'}</span>
           <ChevronDown
             size={16}
             className={`transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
             aria-hidden="true"
           />
         </button>
+
+        {isOpen && (
+          <div className="board-dropdown-menu" role="menu">
+            {boards.map((b) => (
+              <button
+                key={b.id}
+                type="button"
+                onClick={() => {
+                  setActiveBoard(b);
+                  setIsOpen(false);
+                }}
+              >
+                {b.title}
+              </button>
+            ))}
+          </div>
+        )}
 
         <button type="button" className="board-creation" onClick={handleNewBoardClick}>
           <Plus size={18} aria-hidden="true" />
@@ -299,7 +343,7 @@ const AACBoard = () => {
           </div>
         </div>
 
-        {board.isDefault ? (
+        {activeBoard?.isDefault ? (
           <button type="button" className="copy-btn" onClick={handleCopyBoard}>
             <Copy size={18} aria-hidden="true" />
             <span>Make a Copy to Edit</span>

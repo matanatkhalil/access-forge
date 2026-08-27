@@ -9,11 +9,11 @@ router.get('/boards', optionalAuth, async (req, res) => {
   try {
     const userId = req.user?.id || null;
 
-    let boardQuery = `SELECT * FROM boards WHERE is_default=TRUE LIMIT 1`;
+    let boardQuery = `SELECT * FROM boards WHERE is_default=TRUE`;
     let queryParams = [];
 
     if (userId) {
-      boardQuery = `SELECT * FROM boards WHERE user_id = $1 OR is_default=TRUE ORDER BY is_default ASC, id DESC LIMIT 1`;
+      boardQuery = `SELECT * FROM boards WHERE user_id = $1 OR is_default=TRUE ORDER BY is_default DESC, id DESC`;
       queryParams = [userId];
     }
 
@@ -23,23 +23,31 @@ router.get('/boards', optionalAuth, async (req, res) => {
       return res.status(404).json({ message: 'No board found' });
     }
 
-    const board = boardResult.rows[0];
+    const boardIds = boardResult.rows.map((b) => b.id);
 
     const tilesResult = await pool.query(
-      `SELECT id, label, icon_name AS "iconName", color, position_index AS "positionIndex"
+      `SELECT id, board_id AS "boardId", label, icon_name AS "iconName", color, position_index AS "positionIndex"
             FROM tiles
-            WHERE board_id=$1
+            WHERE board_id=ANY($1::int[])
             ORDER BY position_index ASC
             `,
-      [board.id]
+      [boardIds]
     );
 
-    res.json({
+    const tilesByBoard = {};
+    for (const tile of tilesResult.rows) {
+      if (!tilesByBoard[tile.boardId]) tilesByBoard[tile.boardId] = [];
+      tilesByBoard[tile.boardId].push(tile);
+    }
+
+    const boards = boardResult.rows.map((board) => ({
       id: board.id,
       title: board.title,
       isDefault: board.is_default,
-      tiles: tilesResult.rows,
-    });
+      tiles: tilesByBoard[board.id] || [],
+    }));
+
+    res.json(boards);
   } catch (error) {
     console.error('Error fetching board:', error);
     res.status(500).json({ message: 'Server error fetching board data' });
