@@ -66,29 +66,29 @@ const AACBoard = () => {
   const [boardError, setBoardError] = useState(null);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
 
-  useEffect(
-    () => {
-      const fetchBoards = async () => {
-        try {
-          const token = localStorage.getItem('token');
-          const headers = token ? { Authorization: `Bearer ${token}` } : {};
+  const fetchBoards = async (selectBoardId = null) => {
+    try {
+      const token = localStorage.getItem('token');
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
-          const response = await fetch('/api/aac/boards', { headers });
-          if (!response.ok) throw new Error('Failed to fetch boards');
+      const response = await fetch('/api/aac/boards', { headers });
+      if (!response.ok) throw new Error('Failed to fetch boards');
 
-          const data = await response.json();
-          setBoards(data);
+      const data = await response.json();
+      setBoards(data);
 
-          const defaultBoard = data.find((b) => b.isDefault) || data[0];
-          setActiveBoard(defaultBoard);
-        } catch (err) {
-          console.error('Error fetching boards:', err);
-        }
-      };
-      fetchBoards();
-    },
-    { isLoggedIn }
-  );
+      const boardToSelect = selectBoardId
+        ? data.find((b) => b.id === selectBoardId)
+        : data.find((b) => b.isDefault) || data[0];
+
+      setActiveBoard(boardToSelect);
+    } catch (err) {
+      console.error('Error fetching boards:', err);
+    }
+  };
+  useEffect(() => {
+    fetchBoards();
+  }, [isLoggedIn]);
 
   // Load saved scan speed from localStorage (default: 1500ms = 1.5s)
   const [scanSpeed, setScanSpeed] = useState(() => {
@@ -105,7 +105,7 @@ const AACBoard = () => {
 
   // Connect useScanner hook
   const { isScanning, setIsScanning, mode, columns, activeRowIndex, activeTileIndex } = useScanner({
-    totalItems: starterTiles.length,
+    totalItems: activeBoard?.tiles?.length || 0,
     scanSpeed,
     onSelectTile: (selectedIndex) => {
       const tile = starterTiles[selectedIndex];
@@ -177,7 +177,7 @@ const AACBoard = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('api/aac/boards', {
+      const response = await fetch('/api/aac/boards', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -192,8 +192,10 @@ const AACBoard = () => {
       }
 
       const data = await response.json();
+      await fetchBoards(data.boardId); // freshly fetch boards after a new board creation
       setIsCreatingBoard(false);
     } catch (err) {
+      console.error(err);
       setBoardError(err.message);
     }
   };
@@ -380,12 +382,11 @@ const AACBoard = () => {
           onCancel={() => setIsCreatingBoard(false)}
           onSave={(title, tiles) => {
             handleCreateBoard(title, tiles); // existing POST endpoint
-            setIsCreatingBoard(false);
           }}
         />
       ) : (
         <main className="tiles-grid" aria-label="Communication Tiles">
-          {starterTiles.map((tile, index) => {
+          {(activeBoard?.tiles || []).map((tile, index) => {
             // Look up icon dynamically based on iconName string
             const IconComponent = ICON_MAP[tile.iconName];
 

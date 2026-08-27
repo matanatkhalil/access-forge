@@ -7,7 +7,7 @@ const router = express.Router();
 // GET /api/aac/boards (fetch boards with their tiles)
 router.get('/boards', optionalAuth, async (req, res) => {
   try {
-    const userId = req.user?.id || null;
+    const userId = req.user?.userId || null;
 
     let boardQuery = `SELECT * FROM boards WHERE is_default=TRUE`;
     let queryParams = [];
@@ -67,7 +67,7 @@ router.post('/boards', authenticateToken, async (req, res) => {
   try {
     await client.query('BEGIN'); // Start SQL Transaction
 
-    const userId = req.user.id || null;
+    const userId = req.user.userId || null;
 
     // Create the board
     const boardResult = await client.query(
@@ -113,7 +113,7 @@ router.post('/boards', authenticateToken, async (req, res) => {
 router.put('/boards/:id', authenticateToken, async (req, res) => {
   const { id } = req.params;
   const { title, tiles } = req.body;
-  const userId = req.user.id;
+  const userId = req.user.userId;
 
   const client = await pool.connect();
 
@@ -180,7 +180,7 @@ router.put('/boards/:id', authenticateToken, async (req, res) => {
 
 router.delete('/boards/:id', authenticateToken, async (req, res) => {
   const { id } = req.params;
-  const userId = req.user.id;
+  const userId = req.user.userId;
 
   const client = await pool.connect();
 
