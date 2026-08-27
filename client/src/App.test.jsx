@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { render, screen, within, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import KeyboardTrainer from './tools/keyboard-trainer/KeyboardTrainer';
@@ -70,11 +70,31 @@ describe('KeyboardTrainer', () => {
   });
 });
 
+vi.stubGlobal(
+  'fetch',
+  vi.fn(() =>
+    Promise.resolve({
+      ok: true,
+      json: () =>
+        Promise.resolve([
+          {
+            id: 1,
+            title: 'Default Board',
+            isDefault: true,
+            tiles: [
+              { id: 1, label: 'Eat', iconName: 'Utensils', color: '#f97316', positionIndex: 0 },
+            ],
+          },
+        ]),
+    })
+  )
+);
+
 describe('AACBoard', () => {
-  it('appends selected tile label to the sentence bar', () => {
+  it('appends selected tile label to the sentence bar', async () => {
     render(<AACBoard />);
 
-    const eatBtn = screen.getByRole('button', { name: /^eat$/i });
+    const eatBtn = await screen.findByRole('button', { name: /^eat$/i });
     fireEvent.click(eatBtn);
 
     const sentenceDisplay = screen.getByRole('status');
