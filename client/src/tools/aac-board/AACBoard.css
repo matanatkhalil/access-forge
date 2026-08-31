@@ -484,3 +484,8 @@
 .board-dropdown-menu button:hover {
   background: #f3f4f6;
 }
+
+.page-chrome.is-locked {
+  opacity: 0.5;
+  pointer-events: none;
+}

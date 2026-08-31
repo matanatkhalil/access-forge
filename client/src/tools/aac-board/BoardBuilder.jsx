@@ -8,6 +8,7 @@ const BoardBuilder = ({ onCancel, onSave }) => {
   const [title, setTitle] = useState('');
   const [draftTiles, setDraftTiles] = useState([]);
   const [editingIndex, setEditingIndex] = useState(null);
+  const [validationError, setValidationError] = useState(null);
 
   const addBlankTile = () => {
     setDraftTiles((prev) => {
@@ -23,6 +24,29 @@ const BoardBuilder = ({ onCancel, onSave }) => {
   const removeTile = (index) => {
     setDraftTiles((prev) => prev.filter((_, i) => i !== index));
     setEditingIndex((prev) => (prev === index ? null : prev));
+  };
+
+  const handleSave = () => {
+    if (!title.trim()) {
+      setValidationError('Please give your board a title.');
+      return;
+    }
+    if (draftTiles.length === 0) {
+      setValidationError('Please add at least one tile before saving.');
+      return;
+    }
+    const incompleteIndex = draftTiles.findIndex(
+      (t) => !t.label?.trim() || !t.iconName || t.color === '#ffffff'
+    );
+    if (incompleteIndex !== -1) {
+      setValidationError(
+        `Tile ${incompleteIndex + 1} needs a label, icon, and color before saving.`
+      );
+      setEditingIndex(incompleteIndex); // jump user straight to the broken tile
+      return;
+    }
+    setValidationError(null);
+    onSave(title, draftTiles);
   };
 
   return (
@@ -78,12 +102,19 @@ const BoardBuilder = ({ onCancel, onSave }) => {
       </div>
 
       <div className="builder-actions">
-        <button type="button" className="save-btn" onClick={() => onSave(title, draftTiles)}>
-          Save Board
-        </button>
-        <button type="button" className="cancel-btn" onClick={onCancel}>
-          Cancel
-        </button>
+        {validationError && (
+          <p className="validation-error" role="alert">
+            {validationError}
+          </p>
+        )}
+        <div className="builder-actions-buttons">
+          <button type="button" className="save-btn" onClick={handleSave}>
+            Save Board
+          </button>
+          <button type="button" className="cancel-btn" onClick={onCancel}>
+            Cancel
+          </button>
+        </div>
       </div>
     </div>
   );

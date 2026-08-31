@@ -107,13 +107,20 @@ const AACBoard = () => {
   const { isScanning, setIsScanning, mode, columns, activeRowIndex, activeTileIndex } = useScanner({
     totalItems: activeBoard?.tiles?.length || 0,
     scanSpeed,
+    disabled: isCreatingBoard,
     onSelectTile: (selectedIndex) => {
-      const tile = starterTiles[selectedIndex];
+      const tile = activeBoard?.tiles?.[selectedIndex];
       if (tile) {
         handleSelectingTile(tile.label);
       }
     },
   });
+
+  useEffect(() => {
+    if (isCreatingBoard) {
+      setIsScanning(false);
+    }
+  }, [isCreatingBoard, setIsScanning]);
 
   const handleSpeedChange = (e) => {
     const newSpeed = Number(e.target.value);
@@ -213,167 +220,176 @@ const AACBoard = () => {
 
   return (
     <section className="aac-board" aria-label="AAC Communication Board">
-      <header className="header-section">
-        <button type="button" className="board-options" onClick={() => setIsOpen((prev) => !prev)}>
-          <LayoutGrid size={18} aria-hidden="true" />
-          <span>{activeBoard?.title || 'Select Board'}</span>
-          <ChevronDown
-            size={16}
-            className={`transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
-            aria-hidden="true"
-          />
-        </button>
-
-        {isOpen && (
-          <div className="board-dropdown-menu" role="menu">
-            {boards.map((b) => (
-              <button
-                key={b.id}
-                type="button"
-                onClick={() => {
-                  setActiveBoard(b);
-                  setIsOpen(false);
-                }}
-              >
-                {b.title}
-              </button>
-            ))}
-          </div>
-        )}
-
-        <button type="button" className="board-creation" onClick={handleNewBoardClick}>
-          <Plus size={18} aria-hidden="true" />
-          <span>New Board</span>
-        </button>
-        <div className="nav-auth-container">
-          {isLoggedIn ? (
-            <>
-              <button
-                type="button"
-                className="user-profile-btn"
-                onClick={handleProfileBtn}
-                aria-expanded={isProfileMenuOpen}
-                aria-haspopup="true"
-              >
-                <User size={18} aria-hidden="true" />
-                <span>{user?.name || 'Account'}</span>
-              </button>
-
-              {isProfileMenuOpen && (
-                <div className="profile-dropdown" role="menu">
-                  <div className="profile-header">
-                    <p className="profile-user-name">{user?.name || 'User'}</p>
-                    <p className="profile-user-email">{user?.email || 'email@example.com'}</p>
-                  </div>
-
-                  <div className="dropdown-divider" />
-
-                  <button
-                    type="button"
-                    className="logout-btn"
-                    onClick={handleLogOut}
-                    role="menuitem"
-                  >
-                    <LogOut size={16} aria-hidden="true" />
-                    <span>Log Out</span>
-                  </button>
-                </div>
-              )}
-            </>
-          ) : (
-            <button type="button" className="login-btn" onClick={() => openAuthModal('login')}>
-              <LogIn size={18} aria-hidden="true" />
-              <span>Log In</span>
-            </button>
-          )}
-        </div>
-      </header>
-
-      {/* Sentence Bar */}
-      <div className="sentence-bar-container">
-        <div className="sentence-display" role="status" aria-live="polite">
-          {selectedWords.length > 0 ? (
-            selectedWords.join(' ')
-          ) : (
-            <span className="placeholder">Select tiles to build a sentence...</span>
-          )}
-        </div>
-
-        <div className="sentence-controls">
-          <button type="button" onClick={handleRepeat} disabled={selectedWords.length === 0}>
-            <Volume2 aria-hidden="true" size={20} />
-            <span>Repeat</span>
-          </button>
-
-          <button type="button" onClick={handleDeleteLast} disabled={selectedWords.length === 0}>
-            <Trash2 aria-hidden="true" size={20} />
-            <span>Delete Last</span>
-          </button>
-
-          <button type="button" onClick={handleClear} disabled={selectedWords.length === 0}>
-            <RotateCcw aria-hidden="true" size={20} />
-            <span>Clear</span>
-          </button>
-        </div>
-      </div>
-
-      {/* Switch Access & Scanning Toolbar */}
-      <div className="scanner-toolbar">
-        <div className="scan-controls-group">
+      <div
+        className={isCreatingBoard ? 'page-chrome is-locked' : 'page-chrome'}
+        inert={isCreatingBoard}
+      >
+        <header className="header-section">
           <button
             type="button"
-            className={`scan-toggle-btn ${isScanning ? 'active' : ''}`}
-            onClick={() => setIsScanning((prev) => !prev)}
+            className="board-options"
+            onClick={() => setIsOpen((prev) => !prev)}
           >
-            {isScanning ? (
-              <Pause size={18} aria-hidden="true" />
-            ) : (
-              <Play size={18} aria-hidden="true" />
-            )}
-            <span>{isScanning ? 'Pause Auto-Scan' : 'Start Auto-Scan'}</span>
+            <LayoutGrid size={18} aria-hidden="true" />
+            <span>{activeBoard?.title || 'Select Board'}</span>
+            <ChevronDown
+              size={16}
+              className={`transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+              aria-hidden="true"
+            />
           </button>
 
-          <div className="speed-selector">
-            <Gauge size={18} aria-hidden="true" />
-            <label htmlFor="scan-speed-select">Speed:</label>
-            <select id="scan-speed-select" value={scanSpeed} onChange={handleSpeedChange}>
-              <option value={3000}>3.0s (Slow)</option>
-              <option value={2000}>2.0s (Medium)</option>
-              <option value={1500}>1.5s (Default)</option>
-              <option value={1000}>1.0s (Fast)</option>
-            </select>
+          {isOpen && (
+            <div className="board-dropdown-menu" role="menu">
+              {boards.map((b) => (
+                <button
+                  key={b.id}
+                  type="button"
+                  onClick={() => {
+                    setActiveBoard(b);
+                    setIsOpen(false);
+                  }}
+                >
+                  {b.title}
+                </button>
+              ))}
+            </div>
+          )}
+
+          <button type="button" className="board-creation" onClick={handleNewBoardClick}>
+            <Plus size={18} aria-hidden="true" />
+            <span>New Board</span>
+          </button>
+          <div className="nav-auth-container">
+            {isLoggedIn ? (
+              <>
+                <button
+                  type="button"
+                  className="user-profile-btn"
+                  onClick={handleProfileBtn}
+                  aria-expanded={isProfileMenuOpen}
+                  aria-haspopup="true"
+                >
+                  <User size={18} aria-hidden="true" />
+                  <span>{user?.name || 'Account'}</span>
+                </button>
+
+                {isProfileMenuOpen && (
+                  <div className="profile-dropdown" role="menu">
+                    <div className="profile-header">
+                      <p className="profile-user-name">{user?.name || 'User'}</p>
+                      <p className="profile-user-email">{user?.email || 'email@example.com'}</p>
+                    </div>
+
+                    <div className="dropdown-divider" />
+
+                    <button
+                      type="button"
+                      className="logout-btn"
+                      onClick={handleLogOut}
+                      role="menuitem"
+                    >
+                      <LogOut size={16} aria-hidden="true" />
+                      <span>Log Out</span>
+                    </button>
+                  </div>
+                )}
+              </>
+            ) : (
+              <button type="button" className="login-btn" onClick={() => openAuthModal('login')}>
+                <LogIn size={18} aria-hidden="true" />
+                <span>Log In</span>
+              </button>
+            )}
+          </div>
+        </header>
+
+        {/* Sentence Bar */}
+        <div className="sentence-bar-container">
+          <div className="sentence-display" role="status" aria-live="polite">
+            {selectedWords.length > 0 ? (
+              selectedWords.join(' ')
+            ) : (
+              <span className="placeholder">Select tiles to build a sentence...</span>
+            )}
+          </div>
+
+          <div className="sentence-controls">
+            <button type="button" onClick={handleRepeat} disabled={selectedWords.length === 0}>
+              <Volume2 aria-hidden="true" size={20} />
+              <span>Repeat</span>
+            </button>
+
+            <button type="button" onClick={handleDeleteLast} disabled={selectedWords.length === 0}>
+              <Trash2 aria-hidden="true" size={20} />
+              <span>Delete Last</span>
+            </button>
+
+            <button type="button" onClick={handleClear} disabled={selectedWords.length === 0}>
+              <RotateCcw aria-hidden="true" size={20} />
+              <span>Clear</span>
+            </button>
           </div>
         </div>
 
-        {activeBoard?.isDefault ? (
-          <button type="button" className="copy-btn" onClick={handleCopyBoard}>
-            <Copy size={18} aria-hidden="true" />
-            <span>Make a Copy to Edit</span>
-          </button>
-        ) : isBuilderMode ? (
-          <div className="builder-active-actions">
-            <button type="button" className="save-btn" onClick={handleSaveBoard}>
-              <Check size={18} aria-hidden="true" />
-              <span>Save Changes</span>
+        {/* Switch Access & Scanning Toolbar */}
+        <div className="scanner-toolbar">
+          <div className="scan-controls-group">
+            <button
+              type="button"
+              className={`scan-toggle-btn ${isScanning ? 'active' : ''}`}
+              onClick={() => setIsScanning((prev) => !prev)}
+            >
+              {isScanning ? (
+                <Pause size={18} aria-hidden="true" />
+              ) : (
+                <Play size={18} aria-hidden="true" />
+              )}
+              <span>{isScanning ? 'Pause Auto-Scan' : 'Start Auto-Scan'}</span>
             </button>
 
-            <button type="button" className="cancel-btn" onClick={handleCancelEdit}>
-              <X size={18} aria-hidden="true" />
-              <span>Cancel</span>
-            </button>
+            <div className="speed-selector">
+              <Gauge size={18} aria-hidden="true" />
+              <label htmlFor="scan-speed-select">Speed:</label>
+              <select id="scan-speed-select" value={scanSpeed} onChange={handleSpeedChange}>
+                <option value={3000}>3.0s (Slow)</option>
+                <option value={2000}>2.0s (Medium)</option>
+                <option value={1500}>1.5s (Default)</option>
+                <option value={1000}>1.0s (Fast)</option>
+              </select>
+            </div>
           </div>
-        ) : (
-          <div className="board-action-btns">
-            <button type="button" className="edit-btn" onClick={() => setIsBuilderMode(true)}>
-              <Pencil size={18} aria-hidden="true" />
-              <span>Edit Board</span>
+
+          {activeBoard?.isDefault ? (
+            <button type="button" className="copy-btn" onClick={handleCopyBoard}>
+              <Copy size={18} aria-hidden="true" />
+              <span>Make a Copy to Edit</span>
             </button>
-            <button type="button" className="delete-board-btn" onClick={handleDeleteBoard}>
-              <Trash2 size={18} aria-hidden="true" />
-              <span>Delete Board</span>
-            </button>
-          </div>
-        )}
+          ) : isBuilderMode ? (
+            <div className="builder-active-actions">
+              <button type="button" className="save-btn" onClick={handleSaveBoard}>
+                <Check size={18} aria-hidden="true" />
+                <span>Save Changes</span>
+              </button>
+
+              <button type="button" className="cancel-btn" onClick={handleCancelEdit}>
+                <X size={18} aria-hidden="true" />
+                <span>Cancel</span>
+              </button>
+            </div>
+          ) : (
+            <div className="board-action-btns">
+              <button type="button" className="edit-btn" onClick={() => setIsBuilderMode(true)}>
+                <Pencil size={18} aria-hidden="true" />
+                <span>Edit Board</span>
+              </button>
+              <button type="button" className="delete-board-btn" onClick={handleDeleteBoard}>
+                <Trash2 size={18} aria-hidden="true" />
+                <span>Delete Board</span>
+              </button>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Tile Grid */}

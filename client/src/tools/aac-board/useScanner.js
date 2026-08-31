@@ -8,7 +8,12 @@ const getColumnCount = () => {
   return 2; // Mobile default
 };
 
-export const useScanner = ({ totalItems = 12, scanSpeed = 1500, onSelectTile }) => {
+export const useScanner = ({
+  totalItems = 12,
+  scanSpeed = 1500,
+  onSelectTile,
+  disabled = false,
+}) => {
   const [isScanning, setIsScanning] = useState(false);
   const [mode, setMode] = useState('ROW'); // 'ROW' | 'TILE'
   const [columns, setColumns] = useState(getColumnCount);
@@ -65,7 +70,7 @@ export const useScanner = ({ totalItems = 12, scanSpeed = 1500, onSelectTile }) 
 
   // timer loop
   useEffect(() => {
-    if (!isScanning) return;
+    if (!isScanning || disabled) return;
 
     const interval = setInterval(() => {
       if (mode === 'ROW') {
@@ -76,11 +81,11 @@ export const useScanner = ({ totalItems = 12, scanSpeed = 1500, onSelectTile }) 
       }
     }, scanSpeed);
     return () => clearInterval(interval);
-  }, [isScanning, mode, totalRows, columns, totalItems, activeRowIndex, scanSpeed]);
-
+  }, [isScanning, mode, totalRows, columns, totalItems, activeRowIndex, scanSpeed, disabled]);
   // keyboard listener for Switch (Space or Enter)
   useEffect(() => {
     const handleKeyDown = (e) => {
+      if (disabled) return;
       if (e.code === 'Space' || e.key === 'Enter') {
         // If user is focused on a toolbar or control button, let native keyboard click happen
         const isFocusedOnControl = e.target.closest('.scanner-toolbar, .sentence-controls');
@@ -98,7 +103,7 @@ export const useScanner = ({ totalItems = 12, scanSpeed = 1500, onSelectTile }) 
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isScanning, handleSwitchPress]);
+  }, [isScanning, handleSwitchPress, disabled]);
 
   return {
     isScanning,
