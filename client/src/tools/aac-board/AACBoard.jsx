@@ -175,8 +175,32 @@ const AACBoard = () => {
     // code
   };
 
-  const handleDeleteBoard = () => {
-    // code
+  const handleDeleteBoard = async () => {
+    if (!activeBoard || activeBoard.isDefault) return;
+    const confirmed = window.confirm(`Delete "${activeBoard.title}"? This cannot be undone.`);
+    if (!confirmed) return;
+
+    setBoardError(null);
+
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`/api/aac/boards/${activeBoard.id}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        const errData = await response.json();
+        throw new Error(errData.message || 'Failed to delete board');
+      }
+
+      await fetchBoards(); // refresh list and fall back to default board selection
+    } catch (err) {
+      console.error(err);
+      setBoardError(err.message);
+    }
   };
 
   const handleCreateBoard = async (title, tiles) => {
